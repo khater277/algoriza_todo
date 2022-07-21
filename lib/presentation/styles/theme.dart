@@ -1,5 +1,4 @@
 import 'package:algoriza_todo/presentation/styles/color_manager.dart';
-import 'package:algoriza_todo/presentation/styles/font/font_styles.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 

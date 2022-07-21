@@ -4,6 +4,7 @@ import 'package:algoriza_todo/presentation/styles/color_manager.dart';
 import 'package:algoriza_todo/presentation/styles/font/font_manager.dart';
 import 'package:algoriza_todo/presentation/styles/font/font_styles.dart';
 import 'package:algoriza_todo/presentation/styles/icons_broken.dart';
+import 'package:algoriza_todo/shared/default_elevated_button.dart';
 import 'package:flutter/material.dart';
 
 class HomeScreen extends StatelessWidget {
@@ -66,7 +67,22 @@ class HomeScreen extends StatelessWidget {
                                         fontSize: 22, fontWeight: FontWeight.bold)),
                               ),
                             ])),
-                  )
+                  ),
+                  Padding(
+                    padding: const EdgeInsets.symmetric(horizontal: 20,vertical: 5),
+                    child: DefaultElevatedButton(
+                        color: ColorManager.green,
+                        rounded: 12,
+                        height: 45,
+                        width: double.infinity,
+                        onPressed: (){
+
+                        },
+                        child: Text(
+                          "Add a task",
+                          style: getBoldStyle(fontColor: ColorManager.white,),
+                        )),
+                  ),
                 ])),
           )
         ],

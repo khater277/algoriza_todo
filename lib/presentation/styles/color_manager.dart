@@ -4,9 +4,11 @@ import 'package:flutter/material.dart';
 
 class ColorManager{
 
+  static const Color white = Colors.white;
   static const Color black = Colors.black;
   static const Color grey = Colors.grey;
   static const Color lightGrey = Color(0xffe6e6e6);
+  static const Color green = Color(0xff25c06d);
 
 
   static MaterialColor generateMaterialColor(Color color) {
