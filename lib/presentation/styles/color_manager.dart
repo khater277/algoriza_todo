@@ -3,6 +3,12 @@ import 'dart:math';
 import 'package:flutter/material.dart';
 
 class ColorManager{
+
+  static const Color black = Colors.black;
+  static const Color grey = Colors.grey;
+  static const Color lightGrey = Color(0xffe6e6e6);
+
+
   static MaterialColor generateMaterialColor(Color color) {
     return MaterialColor(color.value, {
       50: tintColor(color, 0.9),

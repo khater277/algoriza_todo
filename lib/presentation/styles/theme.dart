@@ -1,4 +1,5 @@
 import 'package:algoriza_todo/presentation/styles/color_manager.dart';
+import 'package:algoriza_todo/presentation/styles/font/font_styles.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 
@@ -6,6 +7,7 @@ class ThemeManager{
   static ThemeData lightTheme = ThemeData(
       primarySwatch: ColorManager.generateMaterialColor(Colors.black87),
       scaffoldBackgroundColor: Colors.white,
+
       floatingActionButtonTheme: const FloatingActionButtonThemeData(
         backgroundColor: Colors.black87,
         foregroundColor: Colors.white,
