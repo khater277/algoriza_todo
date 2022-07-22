@@ -3,7 +3,9 @@ import 'package:algoriza_todo/presentation/screens/add_task/add_task_components/
 import 'package:algoriza_todo/presentation/screens/board/board_components/appBar_title.dart';
 import 'package:algoriza_todo/presentation/styles/color_manager.dart';
 import 'package:algoriza_todo/presentation/styles/font/font_manager.dart';
+import 'package:algoriza_todo/presentation/styles/font/font_styles.dart';
 import 'package:algoriza_todo/presentation/styles/icons_broken.dart';
+import 'package:algoriza_todo/shared/widgets/elevated_button.dart';
 import 'package:dropdown_textfield/dropdown_textfield.dart';
 import 'package:flutter/material.dart';
 
@@ -64,56 +66,82 @@ class _AddTaskScreenState extends State<AddTaskScreen> {
       ),
       body: Padding(
         padding: const EdgeInsets.all(20.0),
-        child: SingleChildScrollView(
-          child: Column(
-            children: [
-              // Title text field
-              TextFieldWithTitle(
-                  controller: _titleController,
-                  title: "Title",
-                  hint: "ex : algoriza meeting"),
-              // Date text field
-              TextFieldWithTitle(
-                  controller: _dateController,
-                  title: "Date",
-                  hint: "ex : 15/10/2022"),
-              Row(
+        child: CustomScrollView(
+          slivers: [
+            SliverFillRemaining(
+              hasScrollBody: false,
+              child: Column(
                 children: [
-
-                  // Start time text field
+                  // Title text field
                   Expanded(
-                    child: TextFieldWithTitle(
-                        controller: _startTimeController,
-                        title: "Start time",
-                        hint: "ex : 10:00AM",
-                        isTime: true,),
-                  ),
-                  const SizedBox(width: 20,),
+                    child: Column(
+                      children: [
+                        TextFieldWithTitle(
+                            controller: _titleController,
+                            title: "Title",
+                            hint: "ex : algoriza meeting"),
+                        // Date text field
+                        TextFieldWithTitle(
+                            controller: _dateController,
+                            title: "Date",
+                            hint: "ex : 15/10/2022"),
+                        Row(
+                          children: [
 
-                  // End time text field
-                  Expanded(
-                    child: TextFieldWithTitle(
-                        controller: _endTimeController,
-                        title: "End time",
-                        hint: "ex : 11:00PM",
-                        isTime: true,),
+                            // Start time text field
+                            Expanded(
+                              child: TextFieldWithTitle(
+                                controller: _startTimeController,
+                                title: "Start time",
+                                hint: "ex : 10:00AM",
+                                isTime: true,),
+                            ),
+                            const SizedBox(width: 20,),
+
+                            // End time text field
+                            Expanded(
+                              child: TextFieldWithTitle(
+                                controller: _endTimeController,
+                                title: "End time",
+                                hint: "ex : 11:00PM",
+                                isTime: true,),
+                            ),
+                          ],
+                        ),
+                        // Reminder text field
+                        DropDownTextFieldWithTitle(
+                            controller: _remindController,
+                            list: _reminderList,
+                            title: "Reminder",
+                            hint: "ex : 10 minutes early"),
+                        // Repeat text field
+                        DropDownTextFieldWithTitle(
+                            controller: _repeatController,
+                            list: _repeatList,
+                            title: "Repeat",
+                            hint: "ex : Daily"),
+                      ],
+                    ),
                   ),
+                  Padding(
+                    padding: const EdgeInsets.symmetric(horizontal: 20,vertical: 5),
+                    child: DefaultElevatedButton(
+                        color: ColorManager.green,
+                        rounded: 12,
+                        height: 45,
+                        width: double.infinity,
+                        onPressed: (){
+                          // navigateTo(context: context, screen: const AddTaskScreen());
+                        },
+                        child: Text(
+                          "Create a task",
+                          style: getBoldStyle(fontColor: ColorManager.white,),
+                        )),
+                  )
                 ],
               ),
-              // Reminder text field
-              DropDownTextFieldWithTitle(
-                  controller: _remindController,
-                  list: _reminderList,
-                  title: "Reminder",
-                  hint: "ex : 10 minutes early"),
-              // Repeat text field
-              DropDownTextFieldWithTitle(
-                  controller: _repeatController,
-                  list: _repeatList,
-                  title: "Repeat",
-                  hint: "ex : Daily"),
-            ],
-          ),
+            )
+          ],
         ),
       ),
     );
