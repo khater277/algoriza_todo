@@ -3,31 +3,21 @@ import 'package:algoriza_todo/presentation/styles/font/font_manager.dart';
 import 'package:algoriza_todo/presentation/styles/font/font_styles.dart';
 import 'package:flutter/material.dart';
 
-class TasksTabBar extends StatefulWidget {
-  const TasksTabBar({Key? key}) : super(key: key);
+class TasksTabBar extends StatelessWidget {
+  final List<String> titles;
+  const TasksTabBar({Key? key, required this.titles}) : super(key: key);
 
-  @override
-  State<TasksTabBar> createState() => _TasksTabBarState();
-}
-
-class _TasksTabBarState extends State<TasksTabBar> {
-  final List<String> _titles = [
-    "All",
-    "Completed",
-    "Uncompleted",
-    "Favorite"
-  ];
   @override
   Widget build(BuildContext context) {
     return Container(
       decoration: const BoxDecoration(
           border: Border(
-              top: BorderSide(
-                  color: ColorManager.mediumGrey,
-                  width: 0.5),
+            top: BorderSide(
+                color: ColorManager.mediumGrey,
+                width: 0.5),
             bottom: BorderSide(
-              color: ColorManager.mediumGrey,
-              width: 0.5),
+                color: ColorManager.mediumGrey,
+                width: 0.5),
           )
       ),
       child: TabBar(
@@ -41,7 +31,7 @@ class _TasksTabBarState extends State<TasksTabBar> {
         onTap: (value){
           debugPrint(value.toString());
         },
-        tabs: _titles.map((text) => Tab(text: text,)).toList(),
+        tabs: titles.map((text) => Tab(text: text,)).toList(),
       ),
     );
   }

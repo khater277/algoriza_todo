@@ -10,6 +10,8 @@ class ColorManager{
   static const Color mediumGrey = Color(0xffe6e6e6);
   static const Color lightGrey = Color(0xfff9f9f9);
   static const Color green = Color(0xff25c06d);
+  // static const Color test = Color(4285361517);
+
 
 
   static MaterialColor generateMaterialColor(Color color) {

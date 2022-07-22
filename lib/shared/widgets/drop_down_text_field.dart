@@ -1,7 +1,7 @@
 // ignore_for_file: must_be_immutable
 
+import 'package:algoriza_todo/presentation/styles/font/font_manager.dart';
 import 'package:algoriza_todo/presentation/styles/font/font_styles.dart';
-import 'package:algoriza_todo/presentation/styles/icons_broken.dart';
 import 'package:dropdown_textfield/dropdown_textfield.dart';
 import 'package:flutter/material.dart';
 
@@ -36,6 +36,16 @@ class DefaultDropDownTextField extends StatelessWidget {
       singleController: controller,
       textStyle: getSemiBoldStyle(fontColor: textColor!,fontSize: textSize),
       listTextStyle: getSemiBoldStyle(fontColor: textColor!,fontSize: textSize),
+      validator: (value) {
+        if (value!.isEmpty) {
+          if(validateText!=null) {
+            return validateText!;
+          } else {
+            return "can't be empty";
+          }
+        }
+        return null;
+      },
       textFieldDecoration: InputDecoration(
         filled: fillColor==null?false:true,
         fillColor: fillColor,
@@ -43,18 +53,18 @@ class DefaultDropDownTextField extends StatelessWidget {
         hintStyle: getRegularStyle(fontColor: hintColor!,fontSize: textSize),
         contentPadding: EdgeInsets.symmetric(vertical: heightPadding==null?18:heightPadding!,
             horizontal: widthPadding==null?10:widthPadding!),
-        errorStyle: TextStyle(
-            color: Colors.red.withOpacity(0.6)
+        errorStyle: getMediumStyle(
+            fontColor: Colors.red.withOpacity(0.6),fontSize: FontSize.s12
         ),
         focusedErrorBorder: OutlineInputBorder(
             borderRadius: BorderRadius.circular(rounded),
             borderSide: BorderSide(
-              color: Colors.red.withOpacity(0.6),
+              color: Colors.red.withOpacity(0.3),
             )),
         errorBorder: OutlineInputBorder(
             borderRadius: BorderRadius.circular(rounded),
             borderSide: BorderSide(
-              color: Colors.red.withOpacity(0.6),
+              color: Colors.red.withOpacity(0.3),
             )),
         enabledBorder: OutlineInputBorder(
             borderRadius: BorderRadius.circular(rounded),

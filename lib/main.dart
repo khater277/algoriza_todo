@@ -6,7 +6,10 @@ import 'package:algoriza_todo/presentation/styles/theme.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 
-void main() {
+void main() async{
+  WidgetsFlutterBinding.ensureInitialized();
+  // SqfLiteHelper.init();
+
   BlocOverrides.runZoned(
     () {
       runApp(const MyApp());
@@ -21,7 +24,7 @@ class MyApp extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return BlocProvider(
-      create: (BuildContext context)=>AppCubit(),
+      create: (BuildContext context)=>AppCubit()..openDB(),
       child: BlocConsumer<AppCubit,AppStates>(
         listener: (context,state){},
         builder: (context,state){

@@ -1,5 +1,6 @@
 // ignore_for_file: must_be_immutable
 
+import 'package:algoriza_todo/presentation/styles/font/font_manager.dart';
 import 'package:algoriza_todo/presentation/styles/font/font_styles.dart';
 import 'package:flutter/material.dart';
 
@@ -88,18 +89,18 @@ class DefaultTextFormFiled extends StatelessWidget{
             horizontal: widthPadding==null?10:widthPadding!),
         prefixIcon: prefix,
         suffixIcon: suffix,
-        errorStyle: TextStyle(
-            color: Colors.red.withOpacity(0.6)
+        errorStyle: getMediumStyle(
+            fontColor: Colors.red.withOpacity(0.6),fontSize: FontSize.s12
         ),
         focusedErrorBorder: OutlineInputBorder(
             borderRadius: BorderRadius.circular(rounded),
             borderSide: BorderSide(
-              color: Colors.red.withOpacity(0.6),
+              color: Colors.red.withOpacity(0.3),
             )),
         errorBorder: OutlineInputBorder(
             borderRadius: BorderRadius.circular(rounded),
             borderSide: BorderSide(
-              color: Colors.red.withOpacity(0.6),
+              color: Colors.red.withOpacity(0.3),
             )),
         enabledBorder: OutlineInputBorder(
             borderRadius: BorderRadius.circular(rounded),
