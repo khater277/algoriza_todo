@@ -5,6 +5,7 @@ import 'package:algoriza_todo/presentation/styles/color_manager.dart';
 import 'package:algoriza_todo/presentation/styles/font/font_manager.dart';
 import 'package:algoriza_todo/presentation/styles/font/font_styles.dart';
 import 'package:algoriza_todo/presentation/styles/icons_broken.dart';
+import 'package:algoriza_todo/shared/date_time_formatter.dart';
 import 'package:algoriza_todo/shared/widgets/elevated_button.dart';
 import 'package:dropdown_textfield/dropdown_textfield.dart';
 import 'package:flutter/material.dart';
@@ -84,27 +85,65 @@ class _AddTaskScreenState extends State<AddTaskScreen> {
                         TextFieldWithTitle(
                             controller: _dateController,
                             title: "Date",
-                            hint: "ex : 15/10/2022"),
+                            hint: "ex : 15-10-2022",
+                            readOnly: true,
+                            onTap: (){
+                              showDatePicker(
+                                  context: context,
+                                  initialDate: DateTime.now(),
+                                  firstDate: DateTime.now(),
+                                  lastDate: DateTime.now().add(const Duration(days: 365))
+                              ).then((date){
+                                setState(() {
+                                  _dateController.text = DateTimeFormatter.taskDate(date!);
+                                });
+                                // print(value);
+                              });
+                            },),
                         Row(
                           children: [
-
                             // Start time text field
                             Expanded(
                               child: TextFieldWithTitle(
                                 controller: _startTimeController,
                                 title: "Start time",
                                 hint: "ex : 10:00AM",
-                                isTime: true,),
+                                isTime: true,
+                                readOnly: true,
+                                onTap: (){
+                                  showTimePicker(
+                                      context: context,
+                                      initialTime: TimeOfDay.now(),
+                                  ).then((time){
+                                    setState(() {
+                                      _startTimeController.text =
+                                      DateTimeFormatter.taskTime(time!);
+                                    });
+                                  });
+                                },
+                              ),
                             ),
                             const SizedBox(width: 20,),
-
                             // End time text field
                             Expanded(
                               child: TextFieldWithTitle(
                                 controller: _endTimeController,
                                 title: "End time",
                                 hint: "ex : 11:00PM",
-                                isTime: true,),
+                                isTime: true,
+                                readOnly: true,
+                                onTap: (){
+                                  showTimePicker(
+                                    context: context,
+                                    initialTime: TimeOfDay.now(),
+                                  ).then((time){
+                                    setState(() {
+                                      _endTimeController.text =
+                                          DateTimeFormatter.taskTime(time!);
+                                    });
+                                  });
+                                },
+                              ),
                             ),
                           ],
                         ),

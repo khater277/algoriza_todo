@@ -10,8 +10,10 @@ class TextFieldWithTitle extends StatelessWidget {
   final String title;
   final String hint;
   final bool isTime;
+  final VoidCallback? onTap;
+  final bool readOnly;
   const TextFieldWithTitle({Key? key, required this.controller, required this.title,
-    required this.hint, this.isTime = false}) : super(key: key);
+    required this.hint, this.isTime = false, this.onTap, this.readOnly = false}) : super(key: key);
 
   @override
   Widget build(BuildContext context) {
@@ -40,6 +42,8 @@ class TextFieldWithTitle extends StatelessWidget {
           suffix: isTime?
           Icon(IconBroken.Time_Circle,size: 16,color: Colors.grey.withOpacity(0.8),)
               : null,
+          onTap: onTap,
+          readOnly: readOnly,
         ),
         const SizedBox(height: 10,)
       ],

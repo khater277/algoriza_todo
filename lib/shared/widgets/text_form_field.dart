@@ -7,6 +7,7 @@ class DefaultTextFormFiled extends StatelessWidget{
   final TextEditingController? controller;
   final Color? textColor;
   final double textSize;
+  final bool readOnly;
   final TextInputType? inputType;
   final String? hint;
   final Color? hintColor;
@@ -25,6 +26,7 @@ class DefaultTextFormFiled extends StatelessWidget{
   double? cursorHeight;
   bool? isPassword;
   int? maxLines;
+  VoidCallback? onTap;
 
 
 
@@ -38,6 +40,7 @@ class DefaultTextFormFiled extends StatelessWidget{
     required this.focusBorder,
     required this.border,
     required this.textSize,
+    this.readOnly = false,
     this.fillColor,
     this.label,
     this.autoFocus,
@@ -50,6 +53,7 @@ class DefaultTextFormFiled extends StatelessWidget{
     this.suffix,
     this.prefix,
     this.maxLines,
+    this.onTap,
   }
       ) : super(key: key);
 
@@ -58,6 +62,7 @@ class DefaultTextFormFiled extends StatelessWidget{
     return TextFormField(
       autofocus: autoFocus??false,
       controller: controller,
+      readOnly: readOnly,
       cursorColor: cursorColor,
       maxLines: maxLines??1,
       validator: (value) {
@@ -111,6 +116,7 @@ class DefaultTextFormFiled extends StatelessWidget{
           color: textColor,
         ),
       ),
+      onTap: onTap,
     );
   }
 }
