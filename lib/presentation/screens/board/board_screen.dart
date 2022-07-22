@@ -18,53 +18,47 @@ class BoardScreen extends StatelessWidget {
       appBar: AppBar(
         title: const AppBarTitle(title: "Board"),
         actions: [
-          AppBarButton(icon: IconBroken.Search, onPressed: () {}),
           AppBarButton(icon: IconBroken.Notification, onPressed: () {}),
-          AppBarButton(icon: IconBroken.Filter, onPressed: () {}),
+          Padding(
+            padding: const EdgeInsets.only(right: 5.0),
+            child: AppBarButton(icon: IconBroken.Calendar, onPressed: () {}),
+          ),
         ],
       ),
       body: Column(
         mainAxisAlignment: MainAxisAlignment.center,
         children: [
-          const Divider(
-            color: ColorManager.mediumGrey,
-          ),
           Expanded(
             child: DefaultTabController(
                 length: 4, // length of tabs
                 initialIndex: 0,
                 child: Column(children: [
+                  const SizedBox(height: 10,),
                   const TasksTabBar(),
-                  Expanded(
-                    child: Container(
-                        decoration: const BoxDecoration(
-                            border: Border(
-                                top: BorderSide(
-                                    color: ColorManager.mediumGrey,
-                                    width: 0.5))),
-                        child: const TabBarView(
-                            children: [
-                              Center(
-                                child: Text('Display Tab 1',
-                                    style: TextStyle(
-                                        fontSize: 22, fontWeight: FontWeight.bold)),
-                              ),
-                              Center(
-                                child: Text('Display Tab 2',
-                                    style: TextStyle(
-                                        fontSize: 22, fontWeight: FontWeight.bold)),
-                              ),
-                              Center(
-                                child: Text('Display Tab 3',
-                                    style: TextStyle(
-                                        fontSize: 22, fontWeight: FontWeight.bold)),
-                              ),
-                              Center(
-                                child: Text('Display Tab 4',
-                                    style: TextStyle(
-                                        fontSize: 22, fontWeight: FontWeight.bold)),
-                              ),
-                            ])),
+                  const Expanded(
+                    child: TabBarView(
+                        children: [
+                          Center(
+                            child: Text('Display Tab 1',
+                                style: TextStyle(
+                                    fontSize: 22, fontWeight: FontWeight.bold)),
+                          ),
+                          Center(
+                            child: Text('Display Tab 2',
+                                style: TextStyle(
+                                    fontSize: 22, fontWeight: FontWeight.bold)),
+                          ),
+                          Center(
+                            child: Text('Display Tab 3',
+                                style: TextStyle(
+                                    fontSize: 22, fontWeight: FontWeight.bold)),
+                          ),
+                          Center(
+                            child: Text('Display Tab 4',
+                                style: TextStyle(
+                                    fontSize: 22, fontWeight: FontWeight.bold)),
+                          ),
+                        ]),
                   ),
                   Padding(
                     padding: const EdgeInsets.symmetric(horizontal: 20,vertical: 5),

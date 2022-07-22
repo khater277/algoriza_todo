@@ -11,7 +11,7 @@ class AppBarButton extends StatelessWidget {
       onTap: (){onPressed;},
       child: Padding(
         padding: const EdgeInsets.symmetric(horizontal: 8),
-        child: Icon(icon,size: 20,),
+        child: Icon(icon,size: 22,),
       ),
     );
   }
