@@ -1,7 +1,7 @@
 import 'package:algoriza_todo/cubit/app_cubit.dart';
 import 'package:algoriza_todo/cubit/app_states.dart';
 import 'package:algoriza_todo/cubit/bloc_observer.dart';
-import 'package:algoriza_todo/presentation/screens/home/home_screen.dart';
+import 'package:algoriza_todo/presentation/screens/board/board_screen.dart';
 import 'package:algoriza_todo/presentation/styles/theme.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
@@ -28,7 +28,7 @@ class MyApp extends StatelessWidget {
           return MaterialApp(
             debugShowCheckedModeBanner: false,
             theme: ThemeManager.lightTheme,
-            home: const HomeScreen(),
+            home: const BoardScreen(),
           );
         },
       ),

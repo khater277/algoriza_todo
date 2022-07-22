@@ -1,24 +1,22 @@
-import 'package:algoriza_todo/presentation/screens/home/home_components/appBar_button.dart';
-import 'package:algoriza_todo/presentation/screens/home/home_components/tasks_tabBar.dart';
+import 'package:algoriza_todo/presentation/screens/add_task/add_task_screen.dart';
+import 'package:algoriza_todo/presentation/screens/board/board_components/appBar_button.dart';
+import 'package:algoriza_todo/presentation/screens/board/board_components/appBar_title.dart';
+import 'package:algoriza_todo/presentation/screens/board/board_components/tasks_tabBar.dart';
 import 'package:algoriza_todo/presentation/styles/color_manager.dart';
-import 'package:algoriza_todo/presentation/styles/font/font_manager.dart';
 import 'package:algoriza_todo/presentation/styles/font/font_styles.dart';
 import 'package:algoriza_todo/presentation/styles/icons_broken.dart';
-import 'package:algoriza_todo/shared/default_elevated_button.dart';
+import 'package:algoriza_todo/shared/navigation.dart';
+import 'package:algoriza_todo/shared/widgets/elevated_button.dart';
 import 'package:flutter/material.dart';
 
-class HomeScreen extends StatelessWidget {
-  const HomeScreen({Key? key}) : super(key: key);
+class BoardScreen extends StatelessWidget {
+  const BoardScreen({Key? key}) : super(key: key);
 
   @override
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
-        title: Text(
-          "Board",
-          style: getBoldStyle(
-              fontColor: ColorManager.black, fontSize: FontSize.s24),
-        ),
+        title: const AppBarTitle(title: "Board"),
         actions: [
           AppBarButton(icon: IconBroken.Search, onPressed: () {}),
           AppBarButton(icon: IconBroken.Notification, onPressed: () {}),
@@ -29,7 +27,7 @@ class HomeScreen extends StatelessWidget {
         mainAxisAlignment: MainAxisAlignment.center,
         children: [
           const Divider(
-            color: ColorManager.lightGrey,
+            color: ColorManager.mediumGrey,
           ),
           Expanded(
             child: DefaultTabController(
@@ -42,7 +40,7 @@ class HomeScreen extends StatelessWidget {
                         decoration: const BoxDecoration(
                             border: Border(
                                 top: BorderSide(
-                                    color: ColorManager.lightGrey,
+                                    color: ColorManager.mediumGrey,
                                     width: 0.5))),
                         child: const TabBarView(
                             children: [
@@ -76,7 +74,7 @@ class HomeScreen extends StatelessWidget {
                         height: 45,
                         width: double.infinity,
                         onPressed: (){
-
+                          navigateTo(context: context, screen: const AddTaskScreen());
                         },
                         child: Text(
                           "Add a task",

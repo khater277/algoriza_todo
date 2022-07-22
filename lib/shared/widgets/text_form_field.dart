@@ -1,7 +1,7 @@
 // ignore_for_file: must_be_immutable
 
+import 'package:algoriza_todo/presentation/styles/font/font_styles.dart';
 import 'package:flutter/material.dart';
-import 'package:flutter/services.dart';
 
 class DefaultTextFormFiled extends StatelessWidget{
   final TextEditingController? controller;
@@ -14,7 +14,6 @@ class DefaultTextFormFiled extends StatelessWidget{
   final Color border;
   final String? validateText;
   final double rounded;
-  final List<TextInputFormatter> formatters;
   Color? fillColor;
   String? label;
   bool? autoFocus;
@@ -39,7 +38,6 @@ class DefaultTextFormFiled extends StatelessWidget{
     required this.focusBorder,
     required this.border,
     required this.textSize,
-    required this.formatters,
     this.fillColor,
     this.label,
     this.autoFocus,
@@ -58,7 +56,6 @@ class DefaultTextFormFiled extends StatelessWidget{
   @override
   Widget build(BuildContext context) {
     return TextFormField(
-      inputFormatters: formatters,
       autofocus: autoFocus??false,
       controller: controller,
       cursorColor: cursorColor,
@@ -73,11 +70,7 @@ class DefaultTextFormFiled extends StatelessWidget{
         }
         return null;
       },
-      style: Theme.of(context).textTheme.bodyText2!.copyWith(
-          color: textColor,
-          fontSize: textSize,
-          letterSpacing: 1
-      ),
+      style: getSemiBoldStyle(fontColor: textColor!,fontSize: textSize),
       cursorHeight: cursorHeight,
       keyboardType: inputType,
       obscureText: isPassword==null?false:isPassword!,
@@ -85,9 +78,7 @@ class DefaultTextFormFiled extends StatelessWidget{
         filled: fillColor==null?false:true,
         fillColor: fillColor,
         hintText: hint,
-        hintStyle: TextStyle(
-          color: hintColor,
-        ),
+        hintStyle: getRegularStyle(fontColor: hintColor!,fontSize: textSize),
         contentPadding: EdgeInsets.symmetric(vertical: heightPadding==null?18:heightPadding!,
             horizontal: widthPadding==null?10:widthPadding!),
         prefixIcon: prefix,
