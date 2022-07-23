@@ -6,10 +6,10 @@ class TaskModel {
       String? date, 
       String? startTime, 
       String? endTime, 
-      String? reminder, 
-      String? repeat,
+      String? reminder,
       int? completed,
       int? favorite,
+      int? color,
   }){
     _id = id;
     _title = title;
@@ -17,9 +17,9 @@ class TaskModel {
     _startTime = startTime;
     _endTime = endTime;
     _reminder = reminder;
-    _repeat = repeat;
     _completed = completed;
     _favorite = favorite;
+    _color = color;
 }
 
   TaskModel.fromJson(dynamic json) {
@@ -29,9 +29,9 @@ class TaskModel {
     _startTime = json['startTime'];
     _endTime = json['endTime'];
     _reminder = json['reminder'];
-    _repeat = json['repeat'];
     _completed = json['completed'];
     _favorite = json['favorite'];
+    _color = json['color'];
   }
   String? _id;
   String? _title;
@@ -39,9 +39,9 @@ class TaskModel {
   String? _startTime;
   String? _endTime;
   String? _reminder;
-  String? _repeat;
   int? _completed;
   int? _favorite;
+  int? _color;
 
   String? get id => _id;
   String? get title => _title;
@@ -49,9 +49,9 @@ class TaskModel {
   String? get startTime => _startTime;
   String? get endTime => _endTime;
   String? get reminder => _reminder;
-  String? get repeat => _repeat;
   int? get completed => _completed;
   int? get favorite => _favorite;
+  int? get color => _color;
 
   Map<String, dynamic> toJson() {
     final map = <String, dynamic>{};
@@ -61,9 +61,9 @@ class TaskModel {
     map['startTime'] = _startTime;
     map['endTime'] = _endTime;
     map['reminder'] = _reminder;
-    map['repeat'] = _repeat;
     map['completed'] = _completed;
     map['favorite'] = _favorite;
+    map['color'] = _color;
     return map;
   }
 

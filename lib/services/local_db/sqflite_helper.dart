@@ -9,8 +9,8 @@ class SqfLiteHelper{
   static Future<void> insertTask({required TaskModel task}) async{
     return await database!.transaction((txn) async {
       txn.rawInsert(
-          'INSERT INTO Task(id, title, date, startTime, endTime, reminder, repeat, completed, favorite)'
-              ' VALUES("${task.id}", "${task.title}", "${task.date}", "${task.startTime}", "${task.endTime}", "${task.reminder}", "${task.repeat}", ${task.completed}, ${task.favorite})'
+          'INSERT INTO Task(id, title, date, startTime, endTime, reminder, completed, favorite, color)'
+              ' VALUES("${task.id}", "${task.title}", "${task.date}", "${task.startTime}", "${task.endTime}", "${task.reminder}", ${task.completed}, ${task.favorite}, ${task.color})'
       );
     });
   }

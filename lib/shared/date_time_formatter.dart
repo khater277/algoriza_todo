@@ -2,13 +2,24 @@ import 'package:flutter/material.dart';
 
 class DateTimeFormatter{
 
-  static const Map<String,String> _period={
-    '00':'12', '01':'1', '02':'2', '03':'3',
-    '04':'4','05':'5', '06':'6','07':'7',
-    '08':'8','09':'9', '10':'10','11':'11',
-    '12':'12', '13':'1', '14':'2', '15':'3',
-    '16':'4','17':'5', '18':'6','19':'7',
-    '20':'8','21':'9', '22':'10','23':'11',
+  static const Map<int,String> days={
+    1:"Monday",
+    2:"Tuesday",
+    3:"Wednesday",
+    4:"Thursday",
+    5:"Friday",
+    6:"Saturday",
+    7:"Sunday",
+  };
+
+
+  static const Map<int,String> cal={
+    1 : 'Jan', 2 : 'Feb',
+    3 : 'Mar', 4 : 'Apr',
+    5 : 'May', 6 : 'Jun',
+    7 : 'Jul', 8 : 'Aug',
+    9 : 'Sep', 10 : 'Oct',
+    11 : 'Nov', 12 : 'Dec',
   };
 
   static String taskDate(DateTime dateTime){
@@ -23,14 +34,26 @@ class DateTimeFormatter{
     int min= time.minute;
     int hour= time.hour;
 
+    String stringMin = min<10?"0$min":min.toString();
+
     String x="";
     if(hour<12){
       x = "AM";
     }else{
+      if(hour!=12) {
+        hour-=12;
+      }
       x = "PM";
     }
-    return "$hour:$min $x";
+    return "${hour==0?"12":hour}:$stringMin $x";
   }
 
+  static String completeDate(DateTime date){
+    int day = date.day;
+    int month = date.month;
+    int year = date.year;
+
+    return "$day ${cal[month]}, $year";
+  }
 
 }

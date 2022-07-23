@@ -1,3 +1,5 @@
+import 'dart:math';
+
 import 'package:algoriza_todo/cubit/app_cubit.dart';
 import 'package:algoriza_todo/cubit/app_states.dart';
 import 'package:algoriza_todo/models/TaskModel.dart';
@@ -29,22 +31,13 @@ class _AddTaskScreenState extends State<AddTaskScreen> {
   final TextEditingController _startTimeController = TextEditingController();
   final TextEditingController _endTimeController = TextEditingController();
   final SingleValueDropDownController _remindController = SingleValueDropDownController();
-  final SingleValueDropDownController _repeatController = SingleValueDropDownController();
   GlobalKey<FormState> formKey = GlobalKey<FormState>();
-  final List<String> _repeatList = [
-    "Only one time",
-    "Daily",
-    "Weekly",
-    "Monthly"
-  ];
 
   final List<String> _reminderList = [
-    "No reminders",
-    "10 minutes early",
-    "30 minutes early",
-    "1 hour early",
-    "2 hour early",
-    "1 day early",
+    "10 min before",
+    "30 min before",
+    "1 hour before",
+    "1 day before",
   ];
 
   @override
@@ -54,14 +47,39 @@ class _AddTaskScreenState extends State<AddTaskScreen> {
     _startTimeController.dispose();
     _endTimeController.dispose();
     _remindController.dispose();
-    _repeatController.dispose();
     super.dispose();
   }
 
   @override
   Widget build(BuildContext context) {
     return BlocConsumer<AppCubit,AppStates>(
-      listener: (context,state){},
+      listener: (context,state){
+        if(state is AppGetTasksState){
+          // SnackBar snackBar = SnackBar(
+          //     content: Text("ADDED"),
+          //     backgroundColor: ColorManager.green,
+          //     elevation: 0,
+          //     margin: const EdgeInsets.symmetric(vertical: 5,horizontal: 10),
+          //     // padding:,
+          //     // width:,
+          //     shape: RoundedRectangleBorder(
+          //       borderRadius: BorderRadius.circular(10)
+          //     ),
+          //     duration: const Duration(seconds: 3),
+          //     // animation:,
+          //     // onVisible:,
+          //     dismissDirection : DismissDirection.down,
+          //     clipBehavior : Clip.antiAlias,
+          // );
+          // ScaffoldMessenger.of(context).showSnackBar(snackBar);
+
+          _titleController.clear();
+          _dateController.clear();
+          _startTimeController.clear();
+          _endTimeController.clear();
+          _remindController.clearDropDown();
+        }
+      },
       builder: (context,state){
         AppCubit cubit = AppCubit.get(context);
         return Scaffold(
@@ -167,12 +185,6 @@ class _AddTaskScreenState extends State<AddTaskScreen> {
                                   list: _reminderList,
                                   title: "Reminder",
                                   hint: "ex : 10 minutes early"),
-                              // Repeat text field
-                              DropDownTextFieldWithTitle(
-                                  controller: _repeatController,
-                                  list: _repeatList,
-                                  title: "Repeat",
-                                  hint: "ex : Daily"),
                             ],
                           ),
                         ),
@@ -193,9 +205,9 @@ class _AddTaskScreenState extends State<AddTaskScreen> {
                                     startTime: _startTimeController.text,
                                     endTime: _endTimeController.text,
                                     reminder: _remindController.dropDownValue!.name,
-                                    repeat: _repeatController.dropDownValue!.name,
                                     completed: 0,
-                                    favorite: 0
+                                    favorite: 0,
+                                    color: (Random().nextDouble()*ColorManager.green.value).toInt()
                                 );
                                 cubit.addTask(task: task);
                               }

@@ -1,9 +1,12 @@
 import 'package:algoriza_todo/cubit/app_cubit.dart';
 import 'package:algoriza_todo/cubit/app_states.dart';
+import 'package:algoriza_todo/models/TaskModel.dart';
 import 'package:algoriza_todo/presentation/screens/add_task/add_task_screen.dart';
 import 'package:algoriza_todo/presentation/screens/board/board_components/appBar_button.dart';
 import 'package:algoriza_todo/presentation/screens/board/board_components/appBar_title.dart';
 import 'package:algoriza_todo/presentation/screens/board/board_components/tasks_tabBar.dart';
+import 'package:algoriza_todo/presentation/screens/board/board_components/teb_content.dart';
+import 'package:algoriza_todo/presentation/screens/schedule/schedule_screen.dart';
 import 'package:algoriza_todo/presentation/styles/color_manager.dart';
 import 'package:algoriza_todo/presentation/styles/font/font_styles.dart';
 import 'package:algoriza_todo/presentation/styles/icons_broken.dart';
@@ -29,8 +32,11 @@ class _BoardScreenState extends State<BoardScreen> {
     "Favorite"
   ];
 
+
+
   @override
   Widget build(BuildContext context) {
+
     return BlocConsumer<AppCubit,AppStates>(
       listener: (context,state){},
       builder: (context,state){
@@ -42,7 +48,12 @@ class _BoardScreenState extends State<BoardScreen> {
               AppBarButton(icon: IconBroken.Notification, onPressed: () {}),
               Padding(
                 padding: const EdgeInsets.only(right: 5.0),
-                child: AppBarButton(icon: IconBroken.Calendar, onPressed: () {}),
+                child: AppBarButton(
+                    icon: IconBroken.Calendar,
+                    onPressed: () {
+                      navigateTo(context: context, screen: const ScheduleScreen());
+                    })
+                ,
               ),
             ],
           ),
@@ -51,17 +62,20 @@ class _BoardScreenState extends State<BoardScreen> {
             children: [
               Expanded(
                 child: DefaultTabController(
-                    length: 4, // length of tabs
+                    length: 4,
                     initialIndex: 0,
                     child: Column(children: [
                       const SizedBox(height: 10,),
-                      TasksTabBar(titles: _titles,),
+                      TasksTabBar(
+                        titles:
+                        cubit.tasks.map((element) => element["title"].toString()).toList(),
+                      ),
                       Expanded(
                         child: state is! AppOpenDBLoadingState?
                         TabBarView(
-                          // controller: TabController(length: length, vsync: vsync),
-                            children: _titles.map((title){
-                              return Text(title);
+                            children: cubit.tasks.map((element){
+                              List<TaskModel> tasks = element['list'].toList();
+                              return TabContent(tasks: tasks);
                             }).toList()
                         )
                             :

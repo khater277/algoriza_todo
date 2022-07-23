@@ -16,12 +16,11 @@ class AppCubit extends Cubit<AppStates> {
     emit(AppOpenDBLoadingState());
     String databasesPath = await getDatabasesPath();
     String path = join(databasesPath, 'todo.db');
-    // await deleteDatabase(path);
     openDatabase(
         path,
         version: 1,
         onCreate: (Database db, int version) {
-          db.execute('CREATE TABLE Task (id TEXT PRIMARY KEY, title TEXT, date TEXT, startTime TEXT, endTime TEXT, reminder TEXT, repeat TEXT, completed BOOLEAN, favorite BOOLEAN)');
+          db.execute('CREATE TABLE Task (id TEXT PRIMARY KEY, title TEXT, date TEXT, startTime TEXT, endTime TEXT, reminder TEXT, completed BOOLEAN, favorite BOOLEAN, color INTEGER)');
         })
     .then((value){
       database = value;
@@ -42,19 +41,48 @@ class AppCubit extends Cubit<AppStates> {
     });
   }
 
-  List<TaskModel> tasks = [];
+  List<TaskModel> allTasks = [];
+  List<Map<String,dynamic>> tasks = [
+    {
+      'title':'All',
+      'list':<TaskModel>[]
+    },
+    {
+      'title':'Completed',
+      'list':<TaskModel>[]
+    },
+    {
+      'title':'Uncompleted',
+      'list':<TaskModel>[]
+    },
+    {
+      'title':'Favorite',
+      'list':<TaskModel>[]
+    },
+  ];
   void getTasks(){
     SqfLiteHelper.getTasks().then((value){
+      allTasks = [];
       for (var element in value) {
         TaskModel task = TaskModel.fromJson(element);
-        tasks.add(task);
+        allTasks.add(task);
       }
-      print("Get Completed ====> ${tasks.length}");
+      tasks[0]['list'] = allTasks;
+      tasks[1]['list'] = allTasks.where((element) => element.completed==1);
+      tasks[2]['list'] = allTasks.where((element) => element.completed==0);
+      tasks[3]['list'] = allTasks.where((element) => element.favorite==1);
+      print("Get Completed ====> ${allTasks.length}");
       emit(AppGetTasksState());
     }).catchError((error){
       printError("getTasks", error.toString());
       emit(AppErrorState());
     });
+  }
+
+  int selectedDayIndex = 0;
+  void changeSelectedDay({required int index}){
+    selectedDayIndex = index;
+    emit(AppChangeSelectedDayIndexState());
   }
   
 }
