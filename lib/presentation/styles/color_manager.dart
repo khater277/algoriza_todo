@@ -2,8 +2,7 @@ import 'dart:math';
 
 import 'package:flutter/material.dart';
 
-class ColorManager{
-
+class ColorManager {
   static const Color white = Colors.white;
   static const Color black = Colors.black;
   static const Color grey = Colors.grey;
@@ -12,16 +11,14 @@ class ColorManager{
   static const Color green = Color(0xff25c06d);
   // static const Color test = Color(4285361517);
 
+  static int randomColor() {
+    int r = Random().nextInt(255);
+    int g = Random().nextInt(255);
+    int b = Random().nextInt(255);
+    Color color = Color.fromRGBO(r, g, b, 0.5);
 
-  static Color darken(Color color, [double amount = .1]) {
-    assert(amount >= 0 && amount <= 1);
-
-    final hsl = HSLColor.fromColor(color);
-    final hslDark = hsl.withLightness((hsl.lightness - amount).clamp(0.0, 1.0));
-
-    return hslDark.toColor();
+    return color.value;
   }
-
 
   static MaterialColor generateMaterialColor(Color color) {
     return MaterialColor(color.value, {
@@ -38,7 +35,7 @@ class ColorManager{
     });
   }
 
- static int tintValue(int value, double factor) =>
+  static int tintValue(int value, double factor) =>
       max(0, min((value + ((255 - value) * factor)).round(), 255));
 
   static Color tintColor(Color color, double factor) => Color.fromRGBO(

@@ -4,7 +4,7 @@ import 'package:algoriza_todo/presentation/styles/font/font_manager.dart';
 import 'package:algoriza_todo/presentation/styles/font/font_styles.dart';
 import 'package:flutter/material.dart';
 
-class DefaultTextFormFiled extends StatelessWidget{
+class DefaultTextFormFiled extends StatelessWidget {
   final TextEditingController? controller;
   final Color? textColor;
   final double textSize;
@@ -16,7 +16,9 @@ class DefaultTextFormFiled extends StatelessWidget{
   final Color border;
   final String? validateText;
   final double rounded;
-  final bool isEndTime;
+  final bool isTime;
+  final int startTime;
+  final int endTime;
   Color? fillColor;
   String? label;
   bool? autoFocus;
@@ -30,9 +32,8 @@ class DefaultTextFormFiled extends StatelessWidget{
   int? maxLines;
   VoidCallback? onTap;
 
-
-
-  DefaultTextFormFiled({Key? key,
+  DefaultTextFormFiled({
+    Key? key,
     required this.controller,
     required this.textColor,
     required this.inputType,
@@ -55,46 +56,50 @@ class DefaultTextFormFiled extends StatelessWidget{
     this.suffix,
     this.prefix,
     this.maxLines,
-    this.onTap, this.isEndTime = false,
-  }
-      ) : super(key: key);
+    this.onTap,
+    this.isTime = false,
+    this.startTime = 0,
+    this.endTime = 0,
+  }) : super(key: key);
 
-
-  String? validator (value) {
+  String? validator(value) {
     if (value!.isEmpty) {
-      return validateText??"can't be empty";
-    }else if(isEndTime){
-      return "555555555";
+      return validateText ?? "can't be empty";
+    } else if (isTime) {
+      if (startTime >= endTime) {
+        return "invalid time";
+      } else {
+        return null;
+      }
     }
     return null;
   }
 
   @override
   Widget build(BuildContext context) {
-
     return TextFormField(
-      autofocus: autoFocus??false,
+      autofocus: autoFocus ?? false,
       controller: controller,
       readOnly: readOnly,
       cursorColor: cursorColor,
-      maxLines: maxLines??1,
+      maxLines: maxLines ?? 1,
       validator: validator,
-      style: getSemiBoldStyle(fontColor: textColor!,fontSize: textSize),
+      style: getSemiBoldStyle(fontColor: textColor!, fontSize: textSize),
       cursorHeight: cursorHeight,
       keyboardType: inputType,
-      obscureText: isPassword==null?false:isPassword!,
+      obscureText: isPassword == null ? false : isPassword!,
       decoration: InputDecoration(
-        filled: fillColor==null?false:true,
+        filled: fillColor == null ? false : true,
         fillColor: fillColor,
         hintText: hint,
-        hintStyle: getRegularStyle(fontColor: hintColor!,fontSize: textSize),
-        contentPadding: EdgeInsets.symmetric(vertical: heightPadding==null?18:heightPadding!,
-            horizontal: widthPadding==null?10:widthPadding!),
+        hintStyle: getRegularStyle(fontColor: hintColor!, fontSize: textSize),
+        contentPadding: EdgeInsets.symmetric(
+            vertical: heightPadding == null ? 18 : heightPadding!,
+            horizontal: widthPadding == null ? 10 : widthPadding!),
         prefixIcon: prefix,
         suffixIcon: suffix,
         errorStyle: getMediumStyle(
-            fontColor: Colors.red.withOpacity(0.6),fontSize: FontSize.s12
-        ),
+            fontColor: Colors.red.withOpacity(0.6), fontSize: FontSize.s12),
         focusedErrorBorder: OutlineInputBorder(
             borderRadius: BorderRadius.circular(rounded),
             borderSide: BorderSide(

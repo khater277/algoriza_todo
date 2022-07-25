@@ -12,8 +12,19 @@ class TextFieldWithTitle extends StatelessWidget {
   final bool isTime;
   final VoidCallback? onTap;
   final bool readOnly;
-  const TextFieldWithTitle({Key? key, required this.controller, required this.title,
-    required this.hint, this.isTime = false, this.onTap, this.readOnly = false}) : super(key: key);
+  final int startTime;
+  final int endTime;
+  const TextFieldWithTitle(
+      {Key? key,
+      required this.controller,
+      required this.title,
+      required this.hint,
+      this.isTime = false,
+      this.onTap,
+      this.readOnly = false,
+      this.startTime = 0,
+      this.endTime = 0})
+      : super(key: key);
 
   @override
   Widget build(BuildContext context) {
@@ -23,10 +34,17 @@ class TextFieldWithTitle extends StatelessWidget {
         Padding(
           padding: const EdgeInsets.symmetric(horizontal: 4)
               .add(const EdgeInsets.only(bottom: 5)),
-          child: Text(title,
-            style: getBoldStyle(fontColor: ColorManager.black,),),
+          child: Text(
+            title,
+            style: getBoldStyle(
+              fontColor: ColorManager.black,
+            ),
+          ),
         ),
         DefaultTextFormFiled(
+          isTime: isTime,
+          startTime: startTime,
+          endTime: endTime,
           cursorColor: ColorManager.grey,
           controller: controller,
           textColor: Colors.grey,
@@ -39,13 +57,19 @@ class TextFieldWithTitle extends StatelessWidget {
           textSize: FontSize.s14,
           fillColor: ColorManager.lightGrey,
           heightPadding: 2,
-          suffix: isTime?
-          Icon(IconBroken.Time_Circle,size: 16,color: Colors.grey.withOpacity(0.8),)
+          suffix: isTime
+              ? Icon(
+                  IconBroken.Time_Circle,
+                  size: 16,
+                  color: Colors.grey.withOpacity(0.8),
+                )
               : null,
           onTap: onTap,
           readOnly: readOnly,
         ),
-        const SizedBox(height: 10,)
+        const SizedBox(
+          height: 10,
+        )
       ],
     );
   }

@@ -21,24 +21,38 @@ class DefaultDropDownTextField extends StatelessWidget {
   double? heightPadding;
   double? widthPadding;
   Color? cursorColor;
-  DefaultDropDownTextField({Key? key, required this.list, required this.controller,
-    this.textColor, required this.textSize, this.inputType,
-    this.hint, this.hintColor, required this.focusBorder,
-    required this.border, this.validateText, required this.rounded,
-  this.fillColor,this.heightPadding,this.widthPadding,this.cursorColor}) : super(key: key);
+  DefaultDropDownTextField(
+      {Key? key,
+      required this.list,
+      required this.controller,
+      this.textColor,
+      required this.textSize,
+      this.inputType,
+      this.hint,
+      this.hintColor,
+      required this.focusBorder,
+      required this.border,
+      this.validateText,
+      required this.rounded,
+      this.fillColor,
+      this.heightPadding,
+      this.widthPadding,
+      this.cursorColor})
+      : super(key: key);
 
   @override
   Widget build(BuildContext context) {
     return DropDownTextField(
-      dropdownRadius:5,
+      dropdownRadius: 5,
       dropDownItemCount: list.length,
       clearOption: false,
       singleController: controller,
-      textStyle: getSemiBoldStyle(fontColor: textColor!,fontSize: textSize),
-      listTextStyle: getSemiBoldStyle(fontColor: textColor!,fontSize: textSize),
+      textStyle: getSemiBoldStyle(fontColor: textColor!, fontSize: textSize),
+      listTextStyle:
+          getSemiBoldStyle(fontColor: textColor!, fontSize: textSize),
       validator: (value) {
         if (value!.isEmpty) {
-          if(validateText!=null) {
+          if (validateText != null) {
             return validateText!;
           } else {
             return "can't be empty";
@@ -47,15 +61,15 @@ class DefaultDropDownTextField extends StatelessWidget {
         return null;
       },
       textFieldDecoration: InputDecoration(
-        filled: fillColor==null?false:true,
+        filled: fillColor == null ? false : true,
         fillColor: fillColor,
         hintText: hint,
-        hintStyle: getRegularStyle(fontColor: hintColor!,fontSize: textSize),
-        contentPadding: EdgeInsets.symmetric(vertical: heightPadding==null?18:heightPadding!,
-            horizontal: widthPadding==null?10:widthPadding!),
+        hintStyle: getRegularStyle(fontColor: hintColor!, fontSize: textSize),
+        contentPadding: EdgeInsets.symmetric(
+            vertical: heightPadding == null ? 18 : heightPadding!,
+            horizontal: widthPadding == null ? 10 : widthPadding!),
         errorStyle: getMediumStyle(
-            fontColor: Colors.red.withOpacity(0.6),fontSize: FontSize.s12
-        ),
+            fontColor: Colors.red.withOpacity(0.6), fontSize: FontSize.s12),
         focusedErrorBorder: OutlineInputBorder(
             borderRadius: BorderRadius.circular(rounded),
             borderSide: BorderSide(
@@ -80,8 +94,11 @@ class DefaultDropDownTextField extends StatelessWidget {
           color: textColor,
         ),
       ),
-      dropDownList: list.map((element) =>
-          DropDownValueModel(name: element, value: element),).toList(),
+      dropDownList: list
+          .map(
+            (element) => DropDownValueModel(name: element, value: element),
+          )
+          .toList(),
     );
   }
 }

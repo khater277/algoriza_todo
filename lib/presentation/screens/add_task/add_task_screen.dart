@@ -40,7 +40,9 @@ class _AddTaskScreenState extends State<AddTaskScreen> {
   ];
 
   DateTime? taskDate;
-  TimeOfDay? taskTime;
+  TimeOfDay? taskStartTime;
+  int start = 0;
+  int end = 0;
 
   @override
   void dispose() {
@@ -130,6 +132,8 @@ class _AddTaskScreenState extends State<AddTaskScreen> {
                                   // Start time text field
                                   Expanded(
                                     child: TextFieldWithTitle(
+                                      startTime: start,
+                                      endTime: end,
                                       controller: _startTimeController,
                                       title: "Start time",
                                       hint: "ex : 10:00AM",
@@ -144,7 +148,9 @@ class _AddTaskScreenState extends State<AddTaskScreen> {
                                             _startTimeController.text =
                                                 DateTimeFormatter.taskTime(
                                                     time!);
-                                            taskTime = time;
+                                            taskStartTime = time;
+                                            start = int.parse(
+                                                "${taskStartTime!.hour}${taskStartTime!.minute}");
                                           });
                                         });
                                       },
@@ -156,6 +162,8 @@ class _AddTaskScreenState extends State<AddTaskScreen> {
                                   // End time text field
                                   Expanded(
                                     child: TextFieldWithTitle(
+                                      startTime: start,
+                                      endTime: end,
                                       controller: _endTimeController,
                                       title: "End time",
                                       hint: "ex : 11:00PM",
@@ -170,6 +178,8 @@ class _AddTaskScreenState extends State<AddTaskScreen> {
                                             _endTimeController.text =
                                                 DateTimeFormatter.taskTime(
                                                     time!);
+                                            end = int.parse(
+                                                "${time.hour}${time.minute}");
                                           });
                                         });
                                       },
@@ -192,9 +202,10 @@ class _AddTaskScreenState extends State<AddTaskScreen> {
                             horizontal: 20, vertical: 5),
                         child: Column(
                           children: [
-                            // Text("${taskDate!.add(Duration(
-                            //     hours: taskTime!=null?taskTime!.hour : 0,
-                            //     minutes: taskTime!=null?taskTime!.minute : 0))}"),
+                            Container(
+                              width: 50,
+                              height: 50,
+                            ),
                             DefaultElevatedButton(
                                 color: ColorManager.green,
                                 rounded: 12,
@@ -212,19 +223,13 @@ class _AddTaskScreenState extends State<AddTaskScreen> {
                                             .dropDownValue!.name,
                                         completed: 0,
                                         favorite: 0,
-                                        color: ColorManager.darken(
-                                                Color((Random().nextDouble() *
-                                                        ColorManager
-                                                            .green.value)
-                                                    .toInt()),
-                                                0.2)
-                                            .value,
+                                        color: ColorManager.randomColor(),
                                         completeDate: taskDate!
                                             .add(Duration(
-                                                hours: taskTime!.hour,
-                                                minutes: taskTime!.minute))
+                                                hours: taskStartTime!.hour,
+                                                minutes: taskStartTime!.minute))
                                             .toString());
-                                    cubit.addTask(task: task);
+                                    cubit.addTask(context: context, task: task);
                                   }
                                 },
                                 child: Text(

@@ -1,6 +1,7 @@
 import 'package:algoriza_todo/cubit/app_cubit.dart';
 import 'package:algoriza_todo/cubit/app_states.dart';
 import 'package:algoriza_todo/models/task_model.dart';
+import 'package:algoriza_todo/presentation/screens/add_task/add_task_screen.dart';
 import 'package:algoriza_todo/presentation/screens/board/board_components/app_bar_button.dart';
 import 'package:algoriza_todo/presentation/screens/board/board_components/app_bar_title.dart';
 import 'package:algoriza_todo/presentation/screens/board/board_components/tasks_tab_bar.dart';
@@ -82,17 +83,9 @@ class _BoardScreenState extends State<BoardScreen> {
                             height: 45,
                             width: double.infinity,
                             onPressed: () {
-                              NotificationsHelper.zonedScheduleNotification(
-                                      context: context,
-                                      date: DateTime.now()
-                                          .add(const Duration(seconds: 2)),
-                                      id: 5)
-                                  .then((value) {
-                                debugPrint("DONE");
-                              }).catchError((error) {
-                                debugPrint("ERROR=======>${error.toString()}");
-                              });
-                              // navigateTo(context: context, screen: const AddTaskScreen());
+                              navigateTo(
+                                  context: context,
+                                  screen: const AddTaskScreen());
                             },
                             child: Text(
                               "Add a task",

@@ -2,6 +2,7 @@ import 'package:algoriza_todo/cubit/app_states.dart';
 import 'package:algoriza_todo/models/task_model.dart';
 import 'package:algoriza_todo/services/local_db/sqflite_constants.dart';
 import 'package:algoriza_todo/services/local_db/sqflite_helper.dart';
+import 'package:algoriza_todo/services/notifications/notification_helper.dart';
 import 'package:algoriza_todo/shared/constants.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
@@ -30,7 +31,8 @@ class AppCubit extends Cubit<AppStates> {
     });
   }
 
-  void addTask({required TaskModel task}) {
+  void addTask({required BuildContext context, required TaskModel task}) {
+    setNotification(context: context, date: DateTime.parse(task.completeDate!));
     SqfLiteHelper.insertTask(task: task).then((value) {
       debugPrint("ADDED");
       getTasks();
@@ -38,6 +40,20 @@ class AppCubit extends Cubit<AppStates> {
       printError("addTask", error.toString());
       emit(AppErrorState());
     });
+  }
+
+  void setNotification(
+      {required BuildContext context, required DateTime date}) {
+    if (date.isAfter(DateTime.now())) {
+      int id = (DateTime.now().millisecondsSinceEpoch / 1000).floor();
+      NotificationsHelper.zonedScheduleNotification(
+              context: context, date: date, id: id)
+          .then((value) => print("NOTIFICATION ADDED"))
+          .catchError((error) {
+        printError("ADD NOTIFICATION", error.toString());
+        emit(AppErrorState());
+      });
+    }
   }
 
   List<TaskModel> allTasks = [];
