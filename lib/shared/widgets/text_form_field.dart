@@ -16,6 +16,7 @@ class DefaultTextFormFiled extends StatelessWidget{
   final Color border;
   final String? validateText;
   final double rounded;
+  final bool isEndTime;
   Color? fillColor;
   String? label;
   bool? autoFocus;
@@ -54,28 +55,30 @@ class DefaultTextFormFiled extends StatelessWidget{
     this.suffix,
     this.prefix,
     this.maxLines,
-    this.onTap,
+    this.onTap, this.isEndTime = false,
   }
       ) : super(key: key);
 
+
+  String? validator (value) {
+    if (value!.isEmpty) {
+      return validateText??"can't be empty";
+    }else if(isEndTime){
+      return "555555555";
+    }
+    return null;
+  }
+
   @override
   Widget build(BuildContext context) {
+
     return TextFormField(
       autofocus: autoFocus??false,
       controller: controller,
       readOnly: readOnly,
       cursorColor: cursorColor,
       maxLines: maxLines??1,
-      validator: (value) {
-        if (value!.isEmpty) {
-          if(validateText!=null) {
-            return validateText!;
-          } else {
-            return "can't be empty";
-          }
-        }
-        return null;
-      },
+      validator: validator,
       style: getSemiBoldStyle(fontColor: textColor!,fontSize: textSize),
       cursorHeight: cursorHeight,
       keyboardType: inputType,

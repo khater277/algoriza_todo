@@ -2,15 +2,14 @@ import 'dart:math';
 
 import 'package:algoriza_todo/cubit/app_cubit.dart';
 import 'package:algoriza_todo/cubit/app_states.dart';
-import 'package:algoriza_todo/models/TaskModel.dart';
+import 'package:algoriza_todo/models/task_model.dart';
 import 'package:algoriza_todo/presentation/screens/add_task/add_task_components/drop_down_text_field_with_title.dart';
 import 'package:algoriza_todo/presentation/screens/add_task/add_task_components/text_field_with_title.dart';
-import 'package:algoriza_todo/presentation/screens/board/board_components/appBar_title.dart';
+import 'package:algoriza_todo/presentation/screens/board/board_components/app_bar_title.dart';
 import 'package:algoriza_todo/presentation/styles/color_manager.dart';
 import 'package:algoriza_todo/presentation/styles/font/font_manager.dart';
 import 'package:algoriza_todo/presentation/styles/font/font_styles.dart';
 import 'package:algoriza_todo/presentation/styles/icons_broken.dart';
-import 'package:algoriza_todo/services/local_db/sqflite_helper.dart';
 import 'package:algoriza_todo/shared/date_time_formatter.dart';
 import 'package:algoriza_todo/shared/widgets/elevated_button.dart';
 import 'package:dropdown_textfield/dropdown_textfield.dart';
@@ -25,12 +24,12 @@ class AddTaskScreen extends StatefulWidget {
 }
 
 class _AddTaskScreenState extends State<AddTaskScreen> {
-
   final TextEditingController _titleController = TextEditingController();
   final TextEditingController _dateController = TextEditingController();
   final TextEditingController _startTimeController = TextEditingController();
   final TextEditingController _endTimeController = TextEditingController();
-  final SingleValueDropDownController _remindController = SingleValueDropDownController();
+  final SingleValueDropDownController _remindController =
+      SingleValueDropDownController();
   GlobalKey<FormState> formKey = GlobalKey<FormState>();
 
   final List<String> _reminderList = [
@@ -39,6 +38,9 @@ class _AddTaskScreenState extends State<AddTaskScreen> {
     "1 hour before",
     "1 day before",
   ];
+
+  DateTime? taskDate;
+  TimeOfDay? taskTime;
 
   @override
   void dispose() {
@@ -52,27 +54,9 @@ class _AddTaskScreenState extends State<AddTaskScreen> {
 
   @override
   Widget build(BuildContext context) {
-    return BlocConsumer<AppCubit,AppStates>(
-      listener: (context,state){
-        if(state is AppGetTasksState){
-          // SnackBar snackBar = SnackBar(
-          //     content: Text("ADDED"),
-          //     backgroundColor: ColorManager.green,
-          //     elevation: 0,
-          //     margin: const EdgeInsets.symmetric(vertical: 5,horizontal: 10),
-          //     // padding:,
-          //     // width:,
-          //     shape: RoundedRectangleBorder(
-          //       borderRadius: BorderRadius.circular(10)
-          //     ),
-          //     duration: const Duration(seconds: 3),
-          //     // animation:,
-          //     // onVisible:,
-          //     dismissDirection : DismissDirection.down,
-          //     clipBehavior : Clip.antiAlias,
-          // );
-          // ScaffoldMessenger.of(context).showSnackBar(snackBar);
-
+    return BlocConsumer<AppCubit, AppStates>(
+      listener: (context, state) {
+        if (state is AppGetTasksState) {
           _titleController.clear();
           _dateController.clear();
           _startTimeController.clear();
@@ -80,19 +64,24 @@ class _AddTaskScreenState extends State<AddTaskScreen> {
           _remindController.clearDropDown();
         }
       },
-      builder: (context,state){
+      builder: (context, state) {
         AppCubit cubit = AppCubit.get(context);
         return Scaffold(
           appBar: AppBar(
             titleSpacing: 0,
             leading: IconButton(
-                onPressed: () {Navigator.pop(context);},
+                onPressed: () {
+                  Navigator.pop(context);
+                },
                 icon: const Icon(
                   IconBroken.Arrow___Left_2,
                   color: ColorManager.black,
                   size: 20,
                 )),
-            title: const AppBarTitle(title: "Add task",size: FontSize.s22,),
+            title: const AppBarTitle(
+              title: "Add task",
+              size: FontSize.s22,
+            ),
           ),
           body: Padding(
             padding: const EdgeInsets.all(20.0),
@@ -119,19 +108,23 @@ class _AddTaskScreenState extends State<AddTaskScreen> {
                                 title: "Date",
                                 hint: "ex : 15-10-2022",
                                 readOnly: true,
-                                onTap: (){
+                                onTap: () {
                                   showDatePicker(
-                                      context: context,
-                                      initialDate: DateTime.now(),
-                                      firstDate: DateTime.now(),
-                                      lastDate: DateTime.now().add(const Duration(days: 365))
-                                  ).then((date){
+                                          context: context,
+                                          initialDate: DateTime.now(),
+                                          firstDate: DateTime.now(),
+                                          lastDate: DateTime.now()
+                                              .add(const Duration(days: 365)))
+                                      .then((date) {
                                     setState(() {
-                                      _dateController.text = DateTimeFormatter.taskDate(date!);
+                                      _dateController.text =
+                                          DateTimeFormatter.taskDate(date!);
+                                      taskDate = date;
                                     });
                                     // print(value);
                                   });
-                                },),
+                                },
+                              ),
                               Row(
                                 children: [
                                   // Start time text field
@@ -142,20 +135,24 @@ class _AddTaskScreenState extends State<AddTaskScreen> {
                                       hint: "ex : 10:00AM",
                                       isTime: true,
                                       readOnly: true,
-                                      onTap: (){
+                                      onTap: () {
                                         showTimePicker(
                                           context: context,
                                           initialTime: TimeOfDay.now(),
-                                        ).then((time){
+                                        ).then((time) {
                                           setState(() {
                                             _startTimeController.text =
-                                                DateTimeFormatter.taskTime(time!);
+                                                DateTimeFormatter.taskTime(
+                                                    time!);
+                                            taskTime = time;
                                           });
                                         });
                                       },
                                     ),
                                   ),
-                                  const SizedBox(width: 20,),
+                                  const SizedBox(
+                                    width: 20,
+                                  ),
                                   // End time text field
                                   Expanded(
                                     child: TextFieldWithTitle(
@@ -164,14 +161,15 @@ class _AddTaskScreenState extends State<AddTaskScreen> {
                                       hint: "ex : 11:00PM",
                                       isTime: true,
                                       readOnly: true,
-                                      onTap: (){
+                                      onTap: () {
                                         showTimePicker(
                                           context: context,
                                           initialTime: TimeOfDay.now(),
-                                        ).then((time){
+                                        ).then((time) {
                                           setState(() {
                                             _endTimeController.text =
-                                                DateTimeFormatter.taskTime(time!);
+                                                DateTimeFormatter.taskTime(
+                                                    time!);
                                           });
                                         });
                                       },
@@ -190,32 +188,53 @@ class _AddTaskScreenState extends State<AddTaskScreen> {
                         ),
                       ),
                       Padding(
-                        padding: const EdgeInsets.symmetric(horizontal: 20,vertical: 5),
-                        child: DefaultElevatedButton(
-                            color: ColorManager.green,
-                            rounded: 12,
-                            height: 45,
-                            width: double.infinity,
-                            onPressed: (){
-                              if(formKey.currentState!.validate()){
-                                TaskModel task = TaskModel(
-                                    id: DateTime.now().toString(),
-                                    title: _titleController.text,
-                                    date: _dateController.text,
-                                    startTime: _startTimeController.text,
-                                    endTime: _endTimeController.text,
-                                    reminder: _remindController.dropDownValue!.name,
-                                    completed: 0,
-                                    favorite: 0,
-                                    color: (Random().nextDouble()*ColorManager.green.value).toInt()
-                                );
-                                cubit.addTask(task: task);
-                              }
-                            },
-                            child: Text(
-                              "Create a task",
-                              style: getBoldStyle(fontColor: ColorManager.white,),
-                            )),
+                        padding: const EdgeInsets.symmetric(
+                            horizontal: 20, vertical: 5),
+                        child: Column(
+                          children: [
+                            // Text("${taskDate!.add(Duration(
+                            //     hours: taskTime!=null?taskTime!.hour : 0,
+                            //     minutes: taskTime!=null?taskTime!.minute : 0))}"),
+                            DefaultElevatedButton(
+                                color: ColorManager.green,
+                                rounded: 12,
+                                height: 45,
+                                width: double.infinity,
+                                onPressed: () {
+                                  if (formKey.currentState!.validate()) {
+                                    TaskModel task = TaskModel(
+                                        id: DateTime.now().toString(),
+                                        title: _titleController.text,
+                                        date: _dateController.text,
+                                        startTime: _startTimeController.text,
+                                        endTime: _endTimeController.text,
+                                        reminder: _remindController
+                                            .dropDownValue!.name,
+                                        completed: 0,
+                                        favorite: 0,
+                                        color: ColorManager.darken(
+                                                Color((Random().nextDouble() *
+                                                        ColorManager
+                                                            .green.value)
+                                                    .toInt()),
+                                                0.2)
+                                            .value,
+                                        completeDate: taskDate!
+                                            .add(Duration(
+                                                hours: taskTime!.hour,
+                                                minutes: taskTime!.minute))
+                                            .toString());
+                                    cubit.addTask(task: task);
+                                  }
+                                },
+                                child: Text(
+                                  "Create a task",
+                                  style: getBoldStyle(
+                                    fontColor: ColorManager.white,
+                                  ),
+                                )),
+                          ],
+                        ),
                       )
                     ],
                   ),

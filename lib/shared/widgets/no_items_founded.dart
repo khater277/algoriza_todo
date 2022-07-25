@@ -11,14 +11,16 @@ class NoItemsFounded extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Center(
-      child: Column(
-        mainAxisAlignment: MainAxisAlignment.center,
-        children: [
-          widget,
-          const SizedBox(height: 15,),
-          Text(text,
-            style: getMediumStyle(fontColor: ColorManager.grey,fontSize: FontSize.s18),)
-        ],
+      child: SingleChildScrollView(
+        child: Column(
+          mainAxisAlignment: MainAxisAlignment.center,
+          children: [
+            widget,
+            const SizedBox(height: 15,),
+            Text(text,
+              style: getMediumStyle(fontColor: ColorManager.grey,fontSize: FontSize.s18),)
+          ],
+        ),
       ),
     );
   }

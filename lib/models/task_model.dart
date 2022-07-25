@@ -3,8 +3,9 @@ class TaskModel {
   TaskModel({
       String? id, 
       String? title, 
-      String? date, 
-      String? startTime, 
+      String? completeDate,
+      String? date,
+      String? startTime,
       String? endTime, 
       String? reminder,
       int? completed,
@@ -13,6 +14,7 @@ class TaskModel {
   }){
     _id = id;
     _title = title;
+    _completeDate = completeDate;
     _date = date;
     _startTime = startTime;
     _endTime = endTime;
@@ -25,6 +27,7 @@ class TaskModel {
   TaskModel.fromJson(dynamic json) {
     _id = json['id'];
     _title = json['title'];
+    _completeDate = json['completeDate'];
     _date = json['date'];
     _startTime = json['startTime'];
     _endTime = json['endTime'];
@@ -35,6 +38,7 @@ class TaskModel {
   }
   String? _id;
   String? _title;
+  String? _completeDate;
   String? _date;
   String? _startTime;
   String? _endTime;
@@ -45,6 +49,7 @@ class TaskModel {
 
   String? get id => _id;
   String? get title => _title;
+  String? get completeDate => _completeDate;
   String? get date => _date;
   String? get startTime => _startTime;
   String? get endTime => _endTime;
@@ -57,6 +62,7 @@ class TaskModel {
     final map = <String, dynamic>{};
     map['id'] = _id;
     map['title'] = _title;
+    map['completeDate'] = _completeDate;
     map['date'] = _date;
     map['startTime'] = _startTime;
     map['endTime'] = _endTime;

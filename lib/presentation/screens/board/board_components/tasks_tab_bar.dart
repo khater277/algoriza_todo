@@ -1,5 +1,4 @@
 import 'package:algoriza_todo/presentation/styles/color_manager.dart';
-import 'package:algoriza_todo/presentation/styles/font/font_manager.dart';
 import 'package:algoriza_todo/presentation/styles/font/font_styles.dart';
 import 'package:flutter/material.dart';
 
@@ -12,14 +11,9 @@ class TasksTabBar extends StatelessWidget {
     return Container(
       decoration: const BoxDecoration(
           border: Border(
-            top: BorderSide(
-                color: ColorManager.mediumGrey,
-                width: 0.5),
-            bottom: BorderSide(
-                color: ColorManager.mediumGrey,
-                width: 0.5),
-          )
-      ),
+        top: BorderSide(color: ColorManager.mediumGrey, width: 0.5),
+        bottom: BorderSide(color: ColorManager.mediumGrey, width: 0.5),
+      )),
       child: TabBar(
         labelColor: ColorManager.black,
         unselectedLabelColor: ColorManager.grey,
@@ -28,10 +22,14 @@ class TasksTabBar extends StatelessWidget {
         indicatorSize: TabBarIndicatorSize.label,
         isScrollable: true,
         labelStyle: getSemiBoldStyle(fontColor: ColorManager.black),
-        onTap: (value){
+        onTap: (value) {
           debugPrint(value.toString());
         },
-        tabs: titles.map((text) => Tab(text: text,)).toList(),
+        tabs: titles
+            .map((text) => Tab(
+                  text: text,
+                ))
+            .toList(),
       ),
     );
   }

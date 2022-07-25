@@ -1,15 +1,15 @@
 import 'package:algoriza_todo/cubit/app_cubit.dart';
 import 'package:algoriza_todo/cubit/app_states.dart';
-import 'package:algoriza_todo/models/TaskModel.dart';
-import 'package:algoriza_todo/presentation/screens/add_task/add_task_screen.dart';
-import 'package:algoriza_todo/presentation/screens/board/board_components/appBar_button.dart';
-import 'package:algoriza_todo/presentation/screens/board/board_components/appBar_title.dart';
-import 'package:algoriza_todo/presentation/screens/board/board_components/tasks_tabBar.dart';
+import 'package:algoriza_todo/models/task_model.dart';
+import 'package:algoriza_todo/presentation/screens/board/board_components/app_bar_button.dart';
+import 'package:algoriza_todo/presentation/screens/board/board_components/app_bar_title.dart';
+import 'package:algoriza_todo/presentation/screens/board/board_components/tasks_tab_bar.dart';
 import 'package:algoriza_todo/presentation/screens/board/board_components/teb_content.dart';
 import 'package:algoriza_todo/presentation/screens/schedule/schedule_screen.dart';
 import 'package:algoriza_todo/presentation/styles/color_manager.dart';
 import 'package:algoriza_todo/presentation/styles/font/font_styles.dart';
 import 'package:algoriza_todo/presentation/styles/icons_broken.dart';
+import 'package:algoriza_todo/services/notifications/notification_helper.dart';
 import 'package:algoriza_todo/shared/navigation.dart';
 import 'package:algoriza_todo/shared/widgets/elevated_button.dart';
 import 'package:algoriza_todo/shared/widgets/progress_indicator.dart';
@@ -24,22 +24,11 @@ class BoardScreen extends StatefulWidget {
 }
 
 class _BoardScreenState extends State<BoardScreen> {
-
-  final List<String> _titles = [
-    "All",
-    "Completed",
-    "Uncompleted",
-    "Favorite"
-  ];
-
-
-
   @override
   Widget build(BuildContext context) {
-
-    return BlocConsumer<AppCubit,AppStates>(
-      listener: (context,state){},
-      builder: (context,state){
+    return BlocConsumer<AppCubit, AppStates>(
+      listener: (context, state) {},
+      builder: (context, state) {
         AppCubit cubit = AppCubit.get(context);
         return Scaffold(
           appBar: AppBar(
@@ -51,9 +40,9 @@ class _BoardScreenState extends State<BoardScreen> {
                 child: AppBarButton(
                     icon: IconBroken.Calendar,
                     onPressed: () {
-                      navigateTo(context: context, screen: const ScheduleScreen());
-                    })
-                ,
+                      navigateTo(
+                          context: context, screen: const ScheduleScreen());
+                    }),
               ),
             ],
           ),
@@ -65,35 +54,51 @@ class _BoardScreenState extends State<BoardScreen> {
                     length: 4,
                     initialIndex: 0,
                     child: Column(children: [
-                      const SizedBox(height: 10,),
+                      const SizedBox(
+                        height: 10,
+                      ),
                       TasksTabBar(
-                        titles:
-                        cubit.tasks.map((element) => element["title"].toString()).toList(),
+                        titles: cubit.tasks
+                            .map((element) => element["title"].toString())
+                            .toList(),
                       ),
                       Expanded(
-                        child: state is! AppOpenDBLoadingState?
-                        TabBarView(
-                            children: cubit.tasks.map((element){
-                              List<TaskModel> tasks = element['list'].toList();
-                              return TabContent(tasks: tasks);
-                            }).toList()
-                        )
-                            :
-                        const DefaultProgressIndicator(width: 2.0, color: ColorManager.green),
+                        child: state is! AppOpenDBLoadingState
+                            ? TabBarView(
+                                children: cubit.tasks.map((element) {
+                                List<TaskModel> tasks =
+                                    element['list'].toList();
+                                return TabContent(tasks: tasks);
+                              }).toList())
+                            : const DefaultProgressIndicator(
+                                width: 2.0, color: ColorManager.green),
                       ),
                       Padding(
-                        padding: const EdgeInsets.symmetric(horizontal: 20,vertical: 5),
+                        padding: const EdgeInsets.symmetric(
+                            horizontal: 20, vertical: 5),
                         child: DefaultElevatedButton(
                             color: ColorManager.green,
                             rounded: 12,
                             height: 45,
                             width: double.infinity,
-                            onPressed: (){
-                              navigateTo(context: context, screen: const AddTaskScreen());
+                            onPressed: () {
+                              NotificationsHelper.zonedScheduleNotification(
+                                      context: context,
+                                      date: DateTime.now()
+                                          .add(const Duration(seconds: 2)),
+                                      id: 5)
+                                  .then((value) {
+                                debugPrint("DONE");
+                              }).catchError((error) {
+                                debugPrint("ERROR=======>${error.toString()}");
+                              });
+                              // navigateTo(context: context, screen: const AddTaskScreen());
                             },
                             child: Text(
                               "Add a task",
-                              style: getBoldStyle(fontColor: ColorManager.white,),
+                              style: getBoldStyle(
+                                fontColor: ColorManager.white,
+                              ),
                             )),
                       ),
                     ])),
@@ -105,4 +110,3 @@ class _BoardScreenState extends State<BoardScreen> {
     );
   }
 }
-

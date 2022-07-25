@@ -13,4 +13,6 @@ class AppGetTasksState extends AppStates{}
 
 class AppAddTaskToCompleteState extends AppStates{}
 
+class AppUpdateTaskState extends AppStates{}
+
 class AppChangeSelectedDayIndexState extends AppStates{}

@@ -1,9 +1,7 @@
-import 'dart:math';
-
 import 'package:algoriza_todo/cubit/app_cubit.dart';
 import 'package:algoriza_todo/cubit/app_states.dart';
-import 'package:algoriza_todo/models/TaskModel.dart';
-import 'package:algoriza_todo/presentation/screens/board/board_components/appBar_title.dart';
+import 'package:algoriza_todo/models/task_model.dart';
+import 'package:algoriza_todo/presentation/screens/board/board_components/app_bar_title.dart';
 import 'package:algoriza_todo/presentation/screens/schedule/components/task_view.dart';
 import 'package:algoriza_todo/presentation/screens/schedule/components/weekly_calender.dart';
 import 'package:algoriza_todo/presentation/styles/color_manager.dart';
@@ -37,9 +35,11 @@ class _ScheduleScreenState extends State<ScheduleScreen> {
       builder: (context, state) {
         AppCubit cubit = AppCubit.get(context);
         List<TaskModel> allTasks = cubit.tasks[0]['list'];
-        String selectedDayDate = DateTimeFormatter.taskDate(DateTime.now().add(Duration(days: cubit.selectedDayIndex)));
-        List<TaskModel> viewedTasks = allTasks.where((element) =>
-        element.date == selectedDayDate).toList();
+        String selectedDayDate = DateTimeFormatter.taskDate(
+            DateTime.now().add(Duration(days: cubit.selectedDayIndex)));
+        List<TaskModel> viewedTasks = allTasks
+            .where((element) => element.date == selectedDayDate)
+            .toList();
         return Scaffold(
           appBar: AppBar(
             titleSpacing: 0,
@@ -59,9 +59,13 @@ class _ScheduleScreenState extends State<ScheduleScreen> {
           ),
           body: Column(
             children: [
-              const SizedBox(height: 10,),
+              const SizedBox(
+                height: 10,
+              ),
               WeeklyCalender(days: days),
-              const SizedBox(height: 10,),
+              const SizedBox(
+                height: 10,
+              ),
               Expanded(
                 child: Padding(
                   padding: const EdgeInsets.all(20),
@@ -72,32 +76,41 @@ class _ScheduleScreenState extends State<ScheduleScreen> {
                         children: [
                           Text(
                             days[cubit.selectedDayIndex],
-                            style: getSemiBoldStyle(fontColor: ColorManager.black,fontSize: FontSize.s16),
+                            style: getSemiBoldStyle(
+                                fontColor: ColorManager.black,
+                                fontSize: FontSize.s16),
                           ),
-                          Text(DateTimeFormatter.completeDate(DateTime.now()
-                              .add(Duration(days: cubit.selectedDayIndex))),
-                            style: getMediumStyle(fontColor: ColorManager.black,fontSize: FontSize.s14),
+                          Text(
+                            DateTimeFormatter.completeDate(DateTime.now()
+                                .add(Duration(days: cubit.selectedDayIndex))),
+                            style: getMediumStyle(
+                                fontColor: ColorManager.black,
+                                fontSize: FontSize.s14),
                           ),
                         ],
                       ),
-                      const SizedBox(height: 20,),
+                      const SizedBox(
+                        height: 20,
+                      ),
                       Expanded(
-                        child: viewedTasks.isNotEmpty?
-                        ListView.separated(
-                            physics: const BouncingScrollPhysics(),
-                            itemBuilder: (context,index){
-                              return TaskView(task: viewedTasks[index]);
-                            },
-                            separatorBuilder: (context,index)=>const SizedBox(height: 10,),
-                            itemCount: viewedTasks.length)
-                        :
-                        NoItemsFounded(
-                            text: "There is no tasks yet",
-                            widget: Icon(
-                              IconBroken.Document,
-                              color: ColorManager.grey.withOpacity(0.7),
-                              size: 150,
-                            )),
+                        child: viewedTasks.isNotEmpty
+                            ? ListView.separated(
+                                physics: const BouncingScrollPhysics(),
+                                itemBuilder: (context, index) {
+                                  return TaskView(task: viewedTasks[index]);
+                                },
+                                separatorBuilder: (context, index) =>
+                                    const SizedBox(
+                                      height: 5,
+                                    ),
+                                itemCount: viewedTasks.length)
+                            : NoItemsFounded(
+                                text: "There is no tasks yet",
+                                widget: Icon(
+                                  IconBroken.Document,
+                                  color: ColorManager.grey.withOpacity(0.7),
+                                  size: 150,
+                                )),
                       )
                     ],
                   ),
