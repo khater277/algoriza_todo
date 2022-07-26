@@ -31,10 +31,17 @@ class AppCubit extends Cubit<AppStates> {
     });
   }
 
-  void addTask({required BuildContext context, required TaskModel task}) {
-    setNotification(context: context, date: DateTime.parse(task.completeDate!));
+  void addTask({
+    required BuildContext context,
+    required TaskModel task,
+  }) {
+    setNotification(
+        context: context,
+        date: DateTime.parse(task.completeDate!)
+            .subtract(Duration(minutes: reminderDuration)));
     SqfLiteHelper.insertTask(task: task).then((value) {
       debugPrint("ADDED");
+      reminderDuration = 0;
       getTasks();
     }).catchError((error) {
       printError("addTask", error.toString());
@@ -48,7 +55,7 @@ class AppCubit extends Cubit<AppStates> {
       int id = (DateTime.now().millisecondsSinceEpoch / 1000).floor();
       NotificationsHelper.zonedScheduleNotification(
               context: context, date: date, id: id)
-          .then((value) => print("NOTIFICATION ADDED"))
+          .then((value) => debugPrint("NOTIFICATION ADDED at $date"))
           .catchError((error) {
         printError("ADD NOTIFICATION", error.toString());
         emit(AppErrorState());
@@ -112,5 +119,11 @@ class AppCubit extends Cubit<AppStates> {
   void changeSelectedDay({required int index}) {
     selectedDayIndex = index;
     emit(AppChangeSelectedDayIndexState());
+  }
+
+  int reminderDuration = 0;
+  void changeReminderDuration({required int value}) {
+    reminderDuration = value;
+    emit(AppChangeReminderDurationState());
   }
 }

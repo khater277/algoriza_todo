@@ -15,7 +15,7 @@ class ColorManager {
     int r = Random().nextInt(255);
     int g = Random().nextInt(255);
     int b = Random().nextInt(255);
-    Color color = Color.fromRGBO(r, g, b, 0.5);
+    Color color = Color.fromRGBO(r, g, b, 0.2);
 
     return color.value;
   }

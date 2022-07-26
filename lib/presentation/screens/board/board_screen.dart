@@ -10,12 +10,11 @@ import 'package:algoriza_todo/presentation/screens/schedule/schedule_screen.dart
 import 'package:algoriza_todo/presentation/styles/color_manager.dart';
 import 'package:algoriza_todo/presentation/styles/font/font_styles.dart';
 import 'package:algoriza_todo/presentation/styles/icons_broken.dart';
-import 'package:algoriza_todo/services/notifications/notification_helper.dart';
-import 'package:algoriza_todo/shared/navigation.dart';
 import 'package:algoriza_todo/shared/widgets/elevated_button.dart';
 import 'package:algoriza_todo/shared/widgets/progress_indicator.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:get/get.dart';
 
 class BoardScreen extends StatefulWidget {
   const BoardScreen({Key? key}) : super(key: key);
@@ -41,8 +40,7 @@ class _BoardScreenState extends State<BoardScreen> {
                 child: AppBarButton(
                     icon: IconBroken.Calendar,
                     onPressed: () {
-                      navigateTo(
-                          context: context, screen: const ScheduleScreen());
+                      Get.to(() => const ScheduleScreen());
                     }),
               ),
             ],
@@ -83,9 +81,7 @@ class _BoardScreenState extends State<BoardScreen> {
                             height: 45,
                             width: double.infinity,
                             onPressed: () {
-                              navigateTo(
-                                  context: context,
-                                  screen: const AddTaskScreen());
+                              Get.to(() => const AddTaskScreen());
                             },
                             child: Text(
                               "Add a task",

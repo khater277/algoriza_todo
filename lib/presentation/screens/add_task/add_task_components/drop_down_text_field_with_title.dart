@@ -1,3 +1,4 @@
+import 'package:algoriza_todo/cubit/app_cubit.dart';
 import 'package:algoriza_todo/presentation/styles/color_manager.dart';
 import 'package:algoriza_todo/presentation/styles/font/font_manager.dart';
 import 'package:algoriza_todo/presentation/styles/font/font_styles.dart';
@@ -7,11 +8,16 @@ import 'package:flutter/material.dart';
 
 class DropDownTextFieldWithTitle extends StatelessWidget {
   final SingleValueDropDownController controller;
-  final List<String> list;
+  final List<Map<String, dynamic>> list;
   final String title;
   final String hint;
-  const DropDownTextFieldWithTitle({Key? key, required this.controller, required this.list,
-    required this.title, required this.hint,}) : super(key: key);
+  const DropDownTextFieldWithTitle({
+    Key? key,
+    required this.controller,
+    required this.list,
+    required this.title,
+    required this.hint,
+  }) : super(key: key);
 
   @override
   Widget build(BuildContext context) {
@@ -21,8 +27,12 @@ class DropDownTextFieldWithTitle extends StatelessWidget {
         Padding(
           padding: const EdgeInsets.symmetric(horizontal: 4)
               .add(const EdgeInsets.only(bottom: 5)),
-          child: Text(title,
-            style: getBoldStyle(fontColor: ColorManager.black,),),
+          child: Text(
+            title,
+            style: getBoldStyle(
+              fontColor: ColorManager.black,
+            ),
+          ),
         ),
         DefaultDropDownTextField(
           controller: controller,
@@ -38,8 +48,15 @@ class DropDownTextFieldWithTitle extends StatelessWidget {
           textSize: FontSize.s14,
           fillColor: ColorManager.lightGrey,
           heightPadding: 2,
+          onChanged: (value) {
+            DropDownValueModel downValueModel = value;
+            AppCubit.get(context)
+                .changeReminderDuration(value: downValueModel.value);
+          },
         ),
-        const SizedBox(height: 10,)
+        const SizedBox(
+          height: 10,
+        )
       ],
     );
   }

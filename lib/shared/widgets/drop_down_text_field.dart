@@ -6,7 +6,7 @@ import 'package:dropdown_textfield/dropdown_textfield.dart';
 import 'package:flutter/material.dart';
 
 class DefaultDropDownTextField extends StatelessWidget {
-  final List<String> list;
+  final List<Map<String, dynamic>> list;
   final SingleValueDropDownController controller;
   final Color? textColor;
   final double textSize;
@@ -17,6 +17,7 @@ class DefaultDropDownTextField extends StatelessWidget {
   final Color border;
   final String? validateText;
   final double rounded;
+  final void Function(dynamic)? onChanged;
   Color? fillColor;
   double? heightPadding;
   double? widthPadding;
@@ -37,7 +38,8 @@ class DefaultDropDownTextField extends StatelessWidget {
       this.fillColor,
       this.heightPadding,
       this.widthPadding,
-      this.cursorColor})
+      this.cursorColor,
+      this.onChanged})
       : super(key: key);
 
   @override
@@ -94,9 +96,11 @@ class DefaultDropDownTextField extends StatelessWidget {
           color: textColor,
         ),
       ),
+      onChanged: onChanged,
       dropDownList: list
           .map(
-            (element) => DropDownValueModel(name: element, value: element),
+            (element) => DropDownValueModel(
+                name: element['text'], value: element['value']),
           )
           .toList(),
     );

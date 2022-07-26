@@ -1,5 +1,3 @@
-import 'dart:math';
-
 import 'package:algoriza_todo/cubit/app_cubit.dart';
 import 'package:algoriza_todo/cubit/app_states.dart';
 import 'package:algoriza_todo/models/task_model.dart';
@@ -11,6 +9,7 @@ import 'package:algoriza_todo/presentation/styles/font/font_manager.dart';
 import 'package:algoriza_todo/presentation/styles/font/font_styles.dart';
 import 'package:algoriza_todo/presentation/styles/icons_broken.dart';
 import 'package:algoriza_todo/shared/date_time_formatter.dart';
+import 'package:algoriza_todo/shared/snack_bar.dart';
 import 'package:algoriza_todo/shared/widgets/elevated_button.dart';
 import 'package:dropdown_textfield/dropdown_textfield.dart';
 import 'package:flutter/material.dart';
@@ -32,17 +31,47 @@ class _AddTaskScreenState extends State<AddTaskScreen> {
       SingleValueDropDownController();
   GlobalKey<FormState> formKey = GlobalKey<FormState>();
 
-  final List<String> _reminderList = [
-    "10 min before",
-    "30 min before",
-    "1 hour before",
-    "1 day before",
+  final List<Map<String, dynamic>> _reminderList = [
+    {
+      "text": "10 min before",
+      "value": 10,
+    },
+    {
+      "text": "30 min before",
+      "value": 30,
+    },
+    {
+      "text": "1 hour before",
+      "value": 60,
+    },
+    {"text": "1 day before", "value": 24 * 60},
   ];
 
   DateTime? taskDate;
   TimeOfDay? taskStartTime;
   int start = 0;
   int end = 0;
+
+  void _endTimeHandler(TimeOfDay? time) {
+    setState(() {
+      _endTimeController.text = DateTimeFormatter.taskTime(time!);
+      String minutes = time.minute > 10 ? "${time.minute}" : "0${time.minute}";
+      String hour = time.hour.toString();
+      String s = "$hour$minutes";
+      end = int.parse(s);
+    });
+  }
+
+  void _startTimeHandler(TimeOfDay? time) {
+    setState(() {
+      _startTimeController.text = DateTimeFormatter.taskTime(time!);
+      taskStartTime = time;
+      String minutes = time.minute > 10 ? "${time.minute}" : "0${time.minute}";
+      String hour = time.hour.toString();
+      String s = "$hour$minutes";
+      start = int.parse(s);
+    });
+  }
 
   @override
   void dispose() {
@@ -64,6 +93,13 @@ class _AddTaskScreenState extends State<AddTaskScreen> {
           _startTimeController.clear();
           _endTimeController.clear();
           _remindController.clearDropDown();
+          showSnackBar(
+            title: "Completed",
+            content: "task added successfully",
+            color: ColorManager.green,
+            fontColor: ColorManager.white,
+            icon: IconBroken.Paper_Upload,
+          );
         }
       },
       builder: (context, state) {
@@ -144,14 +180,7 @@ class _AddTaskScreenState extends State<AddTaskScreen> {
                                           context: context,
                                           initialTime: TimeOfDay.now(),
                                         ).then((time) {
-                                          setState(() {
-                                            _startTimeController.text =
-                                                DateTimeFormatter.taskTime(
-                                                    time!);
-                                            taskStartTime = time;
-                                            start = int.parse(
-                                                "${taskStartTime!.hour}${taskStartTime!.minute}");
-                                          });
+                                          _startTimeHandler(time);
                                         });
                                       },
                                     ),
@@ -174,13 +203,7 @@ class _AddTaskScreenState extends State<AddTaskScreen> {
                                           context: context,
                                           initialTime: TimeOfDay.now(),
                                         ).then((time) {
-                                          setState(() {
-                                            _endTimeController.text =
-                                                DateTimeFormatter.taskTime(
-                                                    time!);
-                                            end = int.parse(
-                                                "${time.hour}${time.minute}");
-                                          });
+                                          _endTimeHandler(time);
                                         });
                                       },
                                     ),
@@ -200,46 +223,38 @@ class _AddTaskScreenState extends State<AddTaskScreen> {
                       Padding(
                         padding: const EdgeInsets.symmetric(
                             horizontal: 20, vertical: 5),
-                        child: Column(
-                          children: [
-                            Container(
-                              width: 50,
-                              height: 50,
-                            ),
-                            DefaultElevatedButton(
-                                color: ColorManager.green,
-                                rounded: 12,
-                                height: 45,
-                                width: double.infinity,
-                                onPressed: () {
-                                  if (formKey.currentState!.validate()) {
-                                    TaskModel task = TaskModel(
-                                        id: DateTime.now().toString(),
-                                        title: _titleController.text,
-                                        date: _dateController.text,
-                                        startTime: _startTimeController.text,
-                                        endTime: _endTimeController.text,
-                                        reminder: _remindController
-                                            .dropDownValue!.name,
-                                        completed: 0,
-                                        favorite: 0,
-                                        color: ColorManager.randomColor(),
-                                        completeDate: taskDate!
-                                            .add(Duration(
-                                                hours: taskStartTime!.hour,
-                                                minutes: taskStartTime!.minute))
-                                            .toString());
-                                    cubit.addTask(context: context, task: task);
-                                  }
-                                },
-                                child: Text(
-                                  "Create a task",
-                                  style: getBoldStyle(
-                                    fontColor: ColorManager.white,
-                                  ),
-                                )),
-                          ],
-                        ),
+                        child: DefaultElevatedButton(
+                            color: ColorManager.green,
+                            rounded: 12,
+                            height: 45,
+                            width: double.infinity,
+                            onPressed: () {
+                              if (formKey.currentState!.validate()) {
+                                TaskModel task = TaskModel(
+                                    id: DateTime.now().toString(),
+                                    title: _titleController.text,
+                                    date: _dateController.text,
+                                    startTime: _startTimeController.text,
+                                    endTime: _endTimeController.text,
+                                    reminder:
+                                        _remindController.dropDownValue!.name,
+                                    completed: 0,
+                                    favorite: 0,
+                                    color: ColorManager.randomColor(),
+                                    completeDate: taskDate!
+                                        .add(Duration(
+                                            hours: taskStartTime!.hour,
+                                            minutes: taskStartTime!.minute))
+                                        .toString());
+                                cubit.addTask(context: context, task: task);
+                              }
+                            },
+                            child: Text(
+                              "Create a task",
+                              style: getBoldStyle(
+                                fontColor: ColorManager.white,
+                              ),
+                            )),
                       )
                     ],
                   ),

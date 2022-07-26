@@ -6,6 +6,7 @@ import 'package:algoriza_todo/presentation/styles/theme.dart';
 import 'package:algoriza_todo/services/notifications/notification_helper.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:get/get.dart';
 // ignore: depend_on_referenced_packages
 import 'package:timezone/data/latest.dart' as tz;
 
@@ -51,7 +52,7 @@ class _MyAppState extends State<MyApp> {
       child: BlocConsumer<AppCubit, AppStates>(
         listener: (context, state) {},
         builder: (context, state) {
-          return MaterialApp(
+          return GetMaterialApp(
             debugShowCheckedModeBanner: false,
             theme: ThemeManager.lightTheme,
             home: const BoardScreen(),
