@@ -1,9 +1,9 @@
 import 'package:algoriza_todo/cubit/app_cubit.dart';
 import 'package:algoriza_todo/cubit/app_states.dart';
 import 'package:algoriza_todo/models/task_model.dart';
-import 'package:algoriza_todo/presentation/screens/add_task/add_task_components/drop_down_text_field_with_title.dart';
-import 'package:algoriza_todo/presentation/screens/add_task/add_task_components/text_field_with_title.dart';
-import 'package:algoriza_todo/presentation/screens/board/board_components/app_bar_title.dart';
+import 'package:algoriza_todo/presentation/screens/add_task/components/drop_down_text_field_with_title.dart';
+import 'package:algoriza_todo/presentation/screens/add_task/components/text_field_with_title.dart';
+import 'package:algoriza_todo/presentation/screens/board/components/app_bar_title.dart';
 import 'package:algoriza_todo/presentation/styles/color_manager.dart';
 import 'package:algoriza_todo/presentation/styles/font/font_manager.dart';
 import 'package:algoriza_todo/presentation/styles/font/font_styles.dart';
@@ -107,15 +107,7 @@ class _AddTaskScreenState extends State<AddTaskScreen> {
         return Scaffold(
           appBar: AppBar(
             titleSpacing: 0,
-            leading: IconButton(
-                onPressed: () {
-                  Navigator.pop(context);
-                },
-                icon: const Icon(
-                  IconBroken.Arrow___Left_2,
-                  color: ColorManager.black,
-                  size: 20,
-                )),
+            leading: const BackButton(),
             title: const AppBarTitle(
               title: "Add task",
               size: FontSize.s22,

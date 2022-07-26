@@ -1,6 +1,6 @@
 import 'package:algoriza_todo/cubit/app_cubit.dart';
 import 'package:algoriza_todo/models/task_model.dart';
-import 'package:algoriza_todo/presentation/screens/board/board_components/pop_up_menu.dart';
+import 'package:algoriza_todo/presentation/screens/board/components/pop_up_menu.dart';
 import 'package:algoriza_todo/presentation/styles/color_manager.dart';
 import 'package:algoriza_todo/presentation/styles/font/font_styles.dart';
 import 'package:flutter/material.dart';

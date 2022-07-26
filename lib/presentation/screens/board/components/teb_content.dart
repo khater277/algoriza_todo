@@ -1,7 +1,5 @@
 import 'package:algoriza_todo/models/task_model.dart';
-import 'package:algoriza_todo/presentation/screens/board/board_components/board_task.dart';
-import 'package:algoriza_todo/presentation/styles/color_manager.dart';
-import 'package:algoriza_todo/presentation/styles/icons_broken.dart';
+import 'package:algoriza_todo/presentation/screens/board/components/board_task.dart';
 import 'package:algoriza_todo/shared/widgets/no_items_founded.dart';
 import 'package:flutter/material.dart';
 
@@ -29,13 +27,7 @@ class TabContent extends StatelessWidget {
                 );
               },
               itemCount: tasks.length)
-          : NoItemsFounded(
-              text: "There is no tasks yet",
-              widget: Icon(
-                IconBroken.Document,
-                color: ColorManager.grey.withOpacity(0.7),
-                size: 150,
-              )),
+          : const NoItemsFounded(),
     );
   }
 }
