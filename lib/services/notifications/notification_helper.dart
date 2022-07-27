@@ -117,7 +117,7 @@ class NotificationsHelper {
     await notifications.zonedSchedule(
         id,
         'Hey there',
-        'you have scheduled task to do now',
+        'you have scheduled task to do',
         tzDate,
         const NotificationDetails(
             android: AndroidNotificationDetails(
