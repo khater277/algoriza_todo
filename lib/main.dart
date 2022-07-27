@@ -12,7 +12,6 @@ import 'package:timezone/data/latest.dart' as tz;
 
 void main() async {
   WidgetsFlutterBinding.ensureInitialized();
-  // SqfLiteHelper.init();
   NotificationsHelper.init();
   tz.initializeTimeZones();
   BlocOverrides.runZoned(

@@ -23,6 +23,7 @@ class AppCubit extends Cubit<AppStates> {
       db.execute(
           'CREATE TABLE Task (${SqfLiteConstants.id} TEXT PRIMARY KEY, ${SqfLiteConstants.title} TEXT, ${SqfLiteConstants.completeDate} TEXT, ${SqfLiteConstants.date} TEXT, ${SqfLiteConstants.startTime} TEXT, ${SqfLiteConstants.endTime} TEXT, ${SqfLiteConstants.reminder} TEXT, ${SqfLiteConstants.completed} BOOLEAN, ${SqfLiteConstants.favorite} BOOLEAN, ${SqfLiteConstants.color} INTEGER)');
     }).then((value) {
+      print("CREATED");
       database = value;
       getTasks();
     }).catchError((error) {

@@ -91,7 +91,7 @@ class NotificationsHelper {
             CupertinoDialogAction(
               isDefaultAction: true,
               onPressed: () async {
-                debugPrint("a7aaa");
+                debugPrint("aaaaa");
               },
               child: const Text('Ok'),
             )
@@ -106,21 +106,6 @@ class NotificationsHelper {
         .listen((String? payload) async {
       debugPrint("$payload");
     });
-  }
-
-  static Future<void> showNotification() async {
-    const AndroidNotificationDetails androidPlatformChannelSpecifics =
-        AndroidNotificationDetails('your channel id', 'your channel name',
-            channelDescription: 'your channel description',
-            importance: Importance.max,
-            priority: Priority.high,
-            ticker: 'ticker',
-            icon: "ic_launcher");
-    const NotificationDetails platformChannelSpecifics =
-        NotificationDetails(android: androidPlatformChannelSpecifics);
-    await notifications.show(
-        0, 'plain title', 'plain body', platformChannelSpecifics,
-        payload: 'item x');
   }
 
   static Future<void> zonedScheduleNotification({
